@@ -25,7 +25,11 @@ export async function POST(request: NextRequest) {
       order_id: event.orderId,
       status: event.status,
     })
-    if (eventError?.code === '23505') return NextResponse.json({ ok: true, duplicate: true }, { headers })
+          if (eventError?.code === '23505') {
+                    return provider.name === 'paytr'
+                      ? new NextResponse('OK', { status: 200, headers: { ...headers, 'Content-Type': 'text/plain' } })
+                                : NextResponse.json({ ok: true, duplicate: true }, { headers })
+          }
     if (eventError) throw new Error('Ödeme olayı kaydedilemedi.')
     const { error: updateError } = await admin.from('payment_orders')
       .update({ status: event.status, updated_at: new Date().toISOString() })
@@ -52,7 +56,9 @@ export async function POST(request: NextRequest) {
       const analyticsEvent = event.status === 'paid' ? 'payment_completed' : 'payment_failed'
       void captureServerAnalytics(analyticsEvent, order.user_id, order.analytics_consent === true)
     }
-    return NextResponse.json({ ok: true, duplicate: false }, { headers })
+        return provider.name === 'paytr'
+          ? new NextResponse('OK', { status: 200, headers: { ...headers, 'Content-Type': 'text/plain' } })
+                : NextResponse.json({ ok: true, duplicate: false }, { headers })
   } catch (error) {
     captureApiError(error, '/api/payments/webhook')
     return NextResponse.json({ error: 'Webhook doğrulanamadı.' }, { status: 400, headers })
