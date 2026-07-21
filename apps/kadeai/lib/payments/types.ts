@@ -31,7 +31,7 @@ export interface VerifiedPaymentEvent {
 }
 
 export interface PaymentProvider {
-  readonly name: 'mock' | 'shopier'
+  readonly name: 'mock' | 'shopier' | 'paytr'
   createCheckout(input: PaymentCheckout): Promise<{ checkoutUrl: string; externalId: string }>
   verifyWebhook(rawBody: string, signature: string): VerifiedPaymentEvent
 }
