@@ -2,6 +2,7 @@ import 'server-only'
 
 import { MockPaymentProvider } from './mockProvider'
 import { ShopierPaymentProvider } from './shopierProvider'
+import { PaytrPaymentProvider } from './paytrProvider'
 import type { PaymentProvider } from './types'
 
 export function getPaymentProvider(): PaymentProvider {
@@ -16,5 +17,6 @@ export function getPaymentProvider(): PaymentProvider {
     )
   }
   if (mode === 'shopier') return new ShopierPaymentProvider()
+    if (mode === 'paytr') return new PaytrPaymentProvider()
   throw new Error('Ödeme sağlayıcısı yapılandırılmamış.')
 }
