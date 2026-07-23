@@ -1,10 +1,9 @@
-import { HiOutlineBriefcase, HiOutlineMail } from 'react-icons/hi'
+import { HiOutlineMail } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import { BRAND } from '../config/brand'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import './Careers.css'
 
 export default function Careers() {
@@ -42,23 +41,24 @@ export default function Careers() {
 
   return (
     <PageTransition>
-      <section className="careers-hero">
-        <PageBgAnimation type="careers" />
-        <div className="grid-bg" />
+      {/* Hero — editoryal desen (bkz. Home.jsx / Portfolio.jsx) */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge"><HiOutlineBriefcase size={14} /> {lang === 'tr' ? 'Kariyer' : 'Careers'}</div>
-            <h1 className="section-title">
-              {lang === 'tr' ? <>Açık pozisyonları <span>şeffafça</span> yayınlıyoruz</> : <>We publish open roles <span>transparently</span></>}
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Kariyer' : 'Careers'}</span>
+            <h1 className="editorial-lead">
+              {lang === 'tr' ? 'Açık pozisyonları şeffafça yayınlıyoruz' : 'We publish open roles transparently'}
             </h1>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {lang === 'tr'
                 ? 'Şu anda doğrulanmış açık pozisyon bulunmuyor. Ama nasıl bir ekip olduğumuzu, hangi alanlarda çalıştığımızı ve başvuru sürecini aşağıda görebilirsin — genel başvuruya her zaman açığız.'
                 : 'There are currently no verified open positions. Below is who we are, the fields we work in, and how to apply — general applications are always welcome.'}
             </p>
-            <a className="btn btn-primary" href={`mailto:${BRAND.email}?subject=Kade%20Media%20Genel%20Başvuru`}>
-              <HiOutlineMail size={17} /> {lang === 'tr' ? 'Genel başvuru gönder' : 'Send an application'}
-            </a>
+            <div className="editorial-actions">
+              <a className="editorial-btn editorial-btn-primary" href={`mailto:${BRAND.email}?subject=Kade%20Media%20Genel%20Başvuru`}>
+                <HiOutlineMail size={16} /> {lang === 'tr' ? 'Genel başvuru gönder' : 'Send an application'}
+              </a>
+            </div>
           </FadeIn>
         </div>
       </section>

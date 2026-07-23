@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
-import { HiOutlineArrowRight, HiOutlineThumbUp } from 'react-icons/hi'
+import { HiOutlineArrowRight } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import './Referanslar.css'
 
 export default function Referanslar() {
@@ -32,13 +31,11 @@ export default function Referanslar() {
 
   return (
     <PageTransition>
-      <section className="referanslar-hero">
-        <PageBgAnimation type="about" />
-        <div className="grid-bg" />
+      <section className="editorial-section section">
         <div className="container">
-          <FadeIn><div className="section-badge"><HiOutlineThumbUp size={14} />{isEN ? 'Client references' : 'Müşteri referansları'}</div></FadeIn>
-          <FadeIn delay={0.1}><h1 className="section-title">{isEN ? 'Permission-based ' : 'İzinli ve '}<span>{isEN ? 'testimonials' : 'doğrulanmış yorumlar'}</span></h1></FadeIn>
-          <FadeIn delay={0.2}><p className="section-subtitle">{isEN ? 'Names, companies, ratings, and statements are published only with explicit permission. Below is how we measure success and how a reference gets published.' : 'İsim, şirket, puan ve beyanları yalnızca açık izinle yayınlıyoruz. Aşağıda başarıyı nasıl ölçtüğümüzü ve bir referansın nasıl yayınlandığını görebilirsin.'}</p></FadeIn>
+          <FadeIn><span className="editorial-eyebrow">— {isEN ? 'Client references' : 'Müşteri referansları'}</span></FadeIn>
+          <FadeIn delay={0.1}><h1 className="editorial-lead">{isEN ? 'Permission-based testimonials' : 'İzinli ve doğrulanmış yorumlar'}</h1></FadeIn>
+          <FadeIn delay={0.2}><p className="editorial-subtitle">{isEN ? 'Names, companies, ratings, and statements are published only with explicit permission. Below is how we measure success and how a reference gets published.' : 'İsim, şirket, puan ve beyanları yalnızca açık izinle yayınlıyoruz. Aşağıda başarıyı nasıl ölçtüğümüzü ve bir referansın nasıl yayınlandığını görebilirsin.'}</p></FadeIn>
         </div>
       </section>
 
@@ -79,7 +76,16 @@ export default function Referanslar() {
         </div>
       </section>
 
-      <section className="section"><div className="container"><div className="referanslar-cta glass-card"><h2>{isEN ? 'Discuss your needs directly' : 'İhtiyacınızı doğrudan konuşalım'}</h2><Link to="/iletisim" className="btn btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link></div></div></section>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>
+            {isEN ? 'DISCUSS YOUR NEEDS DIRECTLY' : 'İHTİYACINIZI DOĞRUDAN KONUŞALIM'}
+          </h2>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
     </PageTransition>
   )
 }

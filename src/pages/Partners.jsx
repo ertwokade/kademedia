@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
-import { HiOutlineArrowRight, HiOutlineOfficeBuilding } from 'react-icons/hi'
+import { HiOutlineArrowRight } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import './Partners.css'
 
 export default function Partners() {
@@ -32,13 +31,11 @@ export default function Partners() {
 
   return (
     <PageTransition>
-      <section className="partners-hero">
-        <PageBgAnimation type="partners" />
-        <div className="grid-bg" />
+      <section className="editorial-section section">
         <div className="container">
-          <FadeIn><div className="section-badge"><HiOutlineOfficeBuilding size={14} />{isEN ? 'Business partners' : 'İş ortakları'}</div></FadeIn>
-          <FadeIn delay={0.1}><h1 className="section-title">{isEN ? 'Verified ' : 'Doğrulanmış '}<span>{isEN ? 'partnerships' : 'iş ortaklıkları'}</span></h1></FadeIn>
-          <FadeIn delay={0.2}><p className="section-subtitle">{isEN ? 'Partner identities and logos are published only with permission. Below are the ad platforms we work on and how we structure partnerships.' : 'Partner kimliklerini ve logolarını yalnızca izinle yayınlıyoruz. Aşağıda üzerinde çalıştığımız reklam platformlarını ve iş birliği modellerimizi görebilirsin.'}</p></FadeIn>
+          <FadeIn><span className="editorial-eyebrow">— {isEN ? 'Business partners' : 'İş ortakları'}</span></FadeIn>
+          <FadeIn delay={0.1}><h1 className="editorial-lead">{isEN ? 'Verified partnerships' : 'Doğrulanmış iş ortaklıkları'}</h1></FadeIn>
+          <FadeIn delay={0.2}><p className="editorial-subtitle">{isEN ? 'Partner identities and logos are published only with permission. Below are the ad platforms we work on and how we structure partnerships.' : 'Partner kimliklerini ve logolarını yalnızca izinle yayınlıyoruz. Aşağıda üzerinde çalıştığımız reklam platformlarını ve iş birliği modellerimizi görebilirsin.'}</p></FadeIn>
         </div>
       </section>
 
@@ -79,7 +76,16 @@ export default function Partners() {
         </div>
       </section>
 
-      <section className="section"><div className="container"><div className="portfolio-cta glass-card"><h2>{isEN ? 'Partnership inquiries' : 'İş ortaklığı görüşmeleri'}</h2><Link to="/iletisim" className="btn btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link></div></div></section>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>
+            {isEN ? 'PARTNERSHIP INQUIRIES' : 'İŞ ORTAKLIĞI GÖRÜŞMELERİ'}
+          </h2>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
     </PageTransition>
   )
 }
