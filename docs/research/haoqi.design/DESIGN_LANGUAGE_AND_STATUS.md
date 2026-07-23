@@ -25,19 +25,55 @@ tanımlamaz):
 - `public/site.html` silindi; `/`→site.html rewrite'ı `vercel.json` ve `vite.config.js`'ten kaldırıldı; `scripts/serve-dist.mjs` `/`→app.html'e güncellendi. `public/_next/` (WebGL chunk'ları) korundu.
 - **Doğrulama:** `npm run legacy:build` ✓; Playwright duman testi ✓ (Navbar 6 link/tekrar yok, iframe canvas render=1, editoryal 6 hizmet, `isFrozenSite:false`). Screenshot: `docs/design-references/kade-home-native-desktop.png`.
 
-### ⏳ Kalan — Seçenek B'nin ana gövdesi (39 diğer sayfa)
-Kullanıcı **Seçenek B**'yi seçti: tüm site editoryal dile. Bu oturumda
-**anasayfa desen olarak** kuruldu; kalan ~39 sayfanın (hizmetler, hakkımızda,
-paketler, blog, iletişim, portfolio, ekip, kariyer, sss, referanslar,
-partnerler, kvkk/gizlilik/çerez/telif, teklif-al, müşteri paneli parçaları vb.)
-kart-tabanlı düzenden editoryal düzene geçirilmesi **büyük, iteratif bir iş**
-— tek oturumda görsel-QA ile bitirilemez, dürüstçe kalan olarak işaretlendi.
+### ✅ Devam — Seçenek B, 2. oturum: 16 sayfa editoryal desene geçti
+Desen artık paylaşılan sınıflarda: `src/styles/kade-yeni.css` içinde
+`.editorial-eyebrow`, `.editorial-lead`, `.editorial-subtitle`,
+`.editorial-list` (+ `-link`/`-row`/`-idx`/`-body`/`-label`/`-desc`/
+`-tags`/`-tag`/`-arrow`), `.editorial-display-title`, `.editorial-btn`
+(+ `-primary`/`-ghost`). Home.jsx'in `home-*` sınıfları buraya taşındı,
+tek kaynak oldu — yeni sayfalar bu sınıfları import gerekmeden kullanır
+(global CSS).
 
-**Kalan iş için desen (Home.jsx'ten):**
-1. Kart yerine editoryal liste/grid; ince `--ky-line` ayraçlar.
+Bu oturumda dönüştürülen sayfalar (hero + ana kart/grid gövdesi):
+`Services.jsx` (hizmetler), `About.jsx` (hakkımızda — hikaye/logo
+animasyonu bilinçli korundu), `Portfolio.jsx` (hero+CTA; pf-tiles zaten
+yakındı), `Packages.jsx` (hero+SSS; fiyat kartları bilinçli korundu),
+`Contact.jsx` (hero+iletişim bilgisi; form korundu), `SSS.jsx`
+(hero+accordion), `Blog.jsx` (hero+yazı listesi, küçük görselli),
+`Team.jsx` (hero+ekip listesi), `Careers.jsx`/`Referanslar.jsx`/
+`Partners.jsx` (yalnız hero+CTA — gövdeleri zaten pf-tiles/pf-proc
+desenindeydi), `KVKK/Gizlilik/CerezPolitikasi/TelifHaklari.jsx`
+(paylaşılan `Legal.css` üzerinden — glass-card kaldırıldı, düz
+`--ky-line` üst çizgili konteyner + mono eyebrow h2), `QuoteRequest.jsx`
+(yalnız hero — sihirbaz gövdesi bilinçli korundu).
+
+**Bilinçli olarak dokunulmayan yerler (kural değil, istisna):**
+- Fiyat/paket karşılaştırma kartları (Packages.jsx) — liste formatı
+  karşılaştırma UX'ini zayıflatır.
+- Fonksiyonel formlar (Contact.jsx form, QuoteRequest.jsx sihirbazı) —
+  state/validasyon içeren etkileşimli akışlar; yapısal risk yüksek.
+- About.jsx'teki animasyonlu logo/hikaye bölümü — kart değil, özgün
+  marka anı.
+- Hukuki düz yazı gövdesi (KVKK vb. metin içeriği) — liste formatına
+  uygun değil, yalnızca konteyner/başlık stili değişti.
+
+**Kalan — henüz dokunulmayan public sayfalar:** `ServiceDetail.jsx`,
+`PartnerDetail.jsx`, `BlogDetail.jsx`, `CaseStudies.jsx`,
+`NewMediaAgency.jsx`, `LinkProfile.jsx`, `Tesekkur.jsx` ve gated alanlar
+(`CustomerPortal.jsx`, `Admin.jsx`, Organizasyon Kiti panelleri, giriş
+sayfaları) — bunlar bu oturumun kapsamı dışında bırakıldı, ayrı bir
+dalga gerektirir.
+
+**Desen (değişmedi, referans):**
+1. Kart yerine editoryal liste/grid; ince `--ky-line` ayraçlar (istisnalar yukarıda).
 2. Monospace eyebrow (`— BAŞLIK`), dev clamp tipografi, altı-çizili inline linkler.
-3. Buton: altın pill (`.home-btn-primary` kalıbı) — tüm sayfalarda aynı radius/padding/font.
-4. Bölüm ritmi: `.section` + üst `--ky-line` border.
+3. Buton: altın pill (`.editorial-btn-primary`) — tüm sayfalarda aynı radius/padding/font.
+4. Bölüm ritmi: `.section` + üst `--ky-line` border (`.editorial-section`).
+
+**Doğrulama notu:** Bu oturumda `npm run build` bu sandboxta çalıştırılamadı
+(node_modules eksik ikili dosyalar). Her dosya için parantez/süslü parantez
+dengesi script ile kontrol edildi, ancak gerçek bir derleme/görsel QA
+(Phase 5) yapılmadı — deploy sonrası canlıda kontrol edilmeli.
 
 ## 3. Önemli not — "koyu" vs "krem"
 Keşifte doğrulandı: **haoqi'nin gerçek teması açık/krem** (`#fbfaf4`), koyu değil.
