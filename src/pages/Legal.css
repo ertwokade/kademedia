@@ -7,25 +7,39 @@
 .legal-content {
   max-width: 800px;
   margin: 0 auto;
-  padding: 48px 56px;
+  padding: 48px 0 0;
+  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
 }
 
 .legal-content h1 {
-  font-size: 2rem;
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -0.02em;
   color: var(--white);
   margin-bottom: 8px;
 }
 
 .legal-date {
-  color: var(--gray-light);
-  font-size: 0.85rem;
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ky-gold, var(--primary));
+  font-size: 0.75rem;
   margin-bottom: 40px;
+  display: inline-block;
 }
 
 .legal-content h2 {
-  font-size: 1.15rem;
-  color: var(--primary);
-  margin: 32px 0 12px;
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ky-gold, var(--primary));
+  margin: 40px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
 }
 
 .legal-content h3 {
