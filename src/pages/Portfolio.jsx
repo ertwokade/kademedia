@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
-import { HiOutlineArrowRight, HiOutlinePhotograph } from 'react-icons/hi'
+import { HiOutlineArrowRight } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import './Portfolio.css'
 
 export default function Portfolio() {
@@ -36,14 +35,12 @@ export default function Portfolio() {
 
   return (
     <PageTransition>
-      <section className="portfolio-hero">
-        <PageBgAnimation type="partners" />
-        <div className="grid-bg" />
+      <section className="editorial-section section">
         <div className="container">
-          <FadeIn><div className="section-badge"><HiOutlinePhotograph size={14} />{isEN ? 'Portfolio' : 'Portfolyo'}</div></FadeIn>
-          <FadeIn delay={0.1}><h1 className="section-title">{isEN ? 'Approved ' : 'Onaylı '}<span>{isEN ? 'project archive' : 'proje arşivi'}</span></h1></FadeIn>
+          <FadeIn><span className="editorial-eyebrow">— {isEN ? 'Portfolio' : 'Portfolyo'}</span></FadeIn>
+          <FadeIn delay={0.1}><h1 className="editorial-lead">{isEN ? 'Approved project archive' : 'Onaylı proje arşivi'}</h1></FadeIn>
           <FadeIn delay={0.2}>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {isEN
                 ? 'Project names, visuals, and results are published only after client permission and verification. Below is what we produce, how we work, and what a case study contains.'
                 : 'Proje adlarını, görselleri ve sonuçları ancak müşteri izni ve doğrulama sonrasında paylaşıyoruz. Aşağıda ne ürettiğimizi, nasıl çalıştığımızı ve bir vakanın neleri içerdiğini görebilirsin.'}
@@ -95,12 +92,16 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
         <div className="container">
-          <div className="portfolio-cta glass-card">
-            <h2>{isEN ? 'Discuss your project' : 'Projenizi konuşalım'}</h2>
-            <p>{isEN ? 'Tell us the scope and receive a written proposal.' : 'Kapsamı paylaşın, yazılı teklif hazırlayalım.'}</p>
-            <Link to="/teklif-al" className="btn btn-primary">{isEN ? 'Request a quote' : 'Teklif al'}<HiOutlineArrowRight size={16} /></Link>
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}>
+            {isEN ? 'DISCUSS YOUR PROJECT' : 'PROJENİZİ KONUŞALIM'}
+          </h2>
+          <p className="editorial-subtitle" style={{ margin: '0 auto 32px' }}>
+            {isEN ? 'Tell us the scope and receive a written proposal.' : 'Kapsamı paylaşın, yazılı teklif hazırlayalım.'}
+          </p>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/teklif-al" className="editorial-btn editorial-btn-primary">{isEN ? 'Request a quote' : 'Teklif al'}<HiOutlineArrowRight size={16} /></Link>
           </div>
         </div>
       </section>

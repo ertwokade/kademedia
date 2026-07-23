@@ -833,7 +833,9 @@
 }
 
 /* ==========================================
-   NATIVE EDITORIAL HOME (haoqi dili · Kade token'ları)
+   NATIVE HOME — WebGL hero iframe kabı
+   (editoryal içerik sınıfları artık paylaşılan
+   src/styles/kade-yeni.css'te — .editorial-*)
    ========================================== */
 
 /* İzole WebGL hero iframe */
@@ -852,133 +854,4 @@
   border: 0;
   display: block;
   pointer-events: none; /* hero dekoratif; etkileşim üstteki Navbar'da */
-}
-
-.home-editorial {
-  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
-}
-
-.home-eyebrow {
-  font-family: var(--ky-mono, 'GeistMono', monospace);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ky-gold, #e0a81f);
-  display: inline-block;
-  margin-bottom: 22px;
-}
-
-.home-lead {
-  font-family: 'TikTokSans', sans-serif;
-  font-weight: 500;
-  font-size: clamp(1.6rem, 4.2vw, 3.2rem);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  color: var(--ky-ink, #17130a);
-  max-width: 16ch;
-  margin: 0 0 48px;
-}
-
-/* Editoryal alt-çizili hizmet listesi (haoqi kalıbı) */
-.home-service-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
-}
-.home-service-link {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 22px 4px;
-  border-bottom: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
-  color: var(--ky-ink, #17130a);
-  text-decoration: none;
-  transition: color 0.2s ease, padding-left 0.25s ease;
-}
-.home-service-link:hover {
-  color: var(--ky-gold-deep, #c8901a);
-  padding-left: 14px;
-}
-.home-service-idx {
-  font-family: var(--ky-mono, 'GeistMono', monospace);
-  font-size: 0.78rem;
-  color: var(--ky-gold, #e0a81f);
-  min-width: 30px;
-}
-.home-service-label {
-  flex: 1;
-  font-family: 'TikTokSans', sans-serif;
-  font-weight: 600;
-  font-size: clamp(1.1rem, 2.6vw, 1.7rem);
-  letter-spacing: -0.01em;
-}
-.home-service-arrow {
-  opacity: 0;
-  transform: translateX(-8px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  flex-shrink: 0;
-}
-.home-service-link:hover .home-service-arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Büyük tipografi CTA */
-.home-cta {
-  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
-  text-align: center;
-}
-.home-cta-title {
-  display: flex;
-  flex-direction: column;
-  font-family: 'TikTokSans', sans-serif;
-  font-weight: 800;
-  font-size: clamp(2.6rem, 9vw, 7.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--ky-ink, #17130a);
-  margin: 0 0 40px;
-}
-.home-cta-actions {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.home-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: 40px;
-  font-family: var(--ky-mono, 'GeistMono', monospace);
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-.home-btn-primary {
-  background: linear-gradient(135deg, #f5d84a, var(--ky-gold, #e0a81f));
-  color: #17130a;
-  box-shadow: 0 10px 30px rgba(224, 168, 31, 0.32);
-}
-.home-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 38px rgba(224, 168, 31, 0.42);
-}
-.home-btn-ghost {
-  background: transparent;
-  border: 1px solid var(--ky-line, rgba(23, 19, 10, 0.22));
-  color: var(--ky-ink, #17130a);
-}
-.home-btn-ghost:hover {
-  border-color: var(--ky-gold, #e0a81f);
-  color: var(--ky-gold-deep, #c8901a);
-}
-
-@media (max-width: 600px) {
-  .home-service-link { gap: 12px; }
 }

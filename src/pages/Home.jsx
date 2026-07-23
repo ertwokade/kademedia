@@ -45,25 +45,29 @@ export default function Home() {
       </section>
 
       <main id="main-content">
-        {/* Editoryal hizmet listesi — haoqi altı-çizili inline link kalıbı */}
-        <section className="home-editorial section">
+        {/* Editoryal hizmet listesi — haoqi altı-çizili inline link kalıbı.
+            Paylaşılan .editorial-* sınıfları (src/styles/kade-yeni.css) —
+            tüm public sayfalar aynı deseni kullanır (bkz. Services.jsx). */}
+        <section className="editorial-section section">
           <div className="container">
             <FadeIn>
-              <span className="home-eyebrow">— NE YAPIYORUZ</span>
+              <span className="editorial-eyebrow">— NE YAPIYORUZ</span>
             </FadeIn>
             <FadeIn delay={0.05}>
-              <p className="home-lead">
+              <p className="editorial-lead">
                 Strateji, içerik ve reklamı bir araya getirerek markaların
                 dijitalde düzenli büyümesini sağlıyoruz.
               </p>
             </FadeIn>
-            <ul className="home-service-list">
+            <ul className="editorial-list">
               {HOME_LINKS.map((s, i) => (
                 <li key={s.to}>
-                  <Link to={s.to} className="home-service-link">
-                    <span className="home-service-idx">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="home-service-label">{s.label}</span>
-                    <HiOutlineArrowRight className="home-service-arrow" size={18} />
+                  <Link to={s.to} className="editorial-list-link">
+                    <span className="editorial-list-idx">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="editorial-list-body">
+                      <span className="editorial-list-label">{s.label}</span>
+                    </span>
+                    <HiOutlineArrowRight className="editorial-list-arrow" size={18} />
                   </Link>
                 </li>
               ))}
@@ -72,21 +76,21 @@ export default function Home() {
         </section>
 
         {/* Büyük tipografi CTA */}
-        <section className="home-cta section">
+        <section className="editorial-section section" style={{ textAlign: 'center' }}>
           <div className="container">
             <FadeIn>
-              <h2 className="home-cta-title">
+              <h2 className="editorial-display-title">
                 <span>MARKANI</span>
                 <span>BİRLİKTE</span>
                 <span>BÜYÜTELİM</span>
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
-              <div className="home-cta-actions">
-                <Link to="/teklif-al" className="home-btn home-btn-primary">
+              <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+                <Link to="/teklif-al" className="editorial-btn editorial-btn-primary">
                   Teklif Al <HiOutlineArrowRight size={16} />
                 </Link>
-                <Link to="/iletisim" className="home-btn home-btn-ghost">
+                <Link to="/iletisim" className="editorial-btn editorial-btn-ghost">
                   İletişime Geç
                 </Link>
               </div>

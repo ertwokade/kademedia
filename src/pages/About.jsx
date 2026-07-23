@@ -7,12 +7,12 @@ import {
   HiOutlineBadgeCheck,
   HiOutlineLightBulb,
   HiOutlineShieldCheck,
+  HiOutlineArrowRight,
 } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
+import { FadeIn } from '../components/Animations'
 import './About.css'
 
 // Placeholder ekip isimleri kaldırıldı (bkz. CONTENT_REQUIRED.md). Yalnızca
@@ -47,25 +47,19 @@ export default function About() {
 
   return (
     <PageTransition>
-      {/* Hero */}
-      <section className="about-hero">
-        <PageBgAnimation type="about" />
-        <div className="grid-bg" />
-        <div className="glow-effect" style={{ top: '-150px', right: '-100px' }} />
+      {/* Hero — editoryal desen (bkz. Home.jsx / Services.jsx) */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge">
-              <HiOutlineUserGroup size={14} />
-              {t('about.badge')}
-            </div>
+            <span className="editorial-eyebrow">— {t('about.badge')}</span>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h1 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}>
-              {t('about.title')} <span>{t('about.titleHighlight')}</span> {t('about.titleEnd')}
+            <h1 className="editorial-lead">
+              {t('about.title')} {t('about.titleHighlight')} {t('about.titleEnd')}
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {t('about.subtitle')}
             </p>
           </FadeIn>
@@ -151,81 +145,80 @@ export default function About() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="section values-section">
+      {/* Values — kart yerine editoryal liste */}
+      <section className="editorial-section section" style={{ borderTop: 'none' }}>
         <div className="container">
-          <div className="section-header">
-            <FadeIn>
-              <div className="section-badge">
-                <HiOutlineHeart size={14} />
-                {t('about.valuesBadge')}
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="section-title">
-                {t('about.valuesTitle')} <span>{t('about.valuesTitleHighlight')}</span> {t('about.valuesTitleEnd')}
-              </h2>
-            </FadeIn>
-          </div>
+          <FadeIn>
+            <span className="editorial-eyebrow">— {t('about.valuesBadge')}</span>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="editorial-lead" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>
+              {t('about.valuesTitle')} {t('about.valuesTitleHighlight')} {t('about.valuesTitleEnd')}
+            </p>
+          </FadeIn>
 
-          <StaggerContainer className="values-grid" staggerDelay={0.1}>
+          <ul className="editorial-list">
             {values.map((value) => (
-              <StaggerItem key={value.title}>
-                <motion.div className="value-card glass-card" whileHover={{ scale: 1.03, y: -3 }}>
-                  <div className="value-icon">
-                    <value.icon size={26} />
-                  </div>
-                  <h3>{value.title}</h3>
-                  <p>{value.desc}</p>
-                </motion.div>
-              </StaggerItem>
+              <li key={value.title}>
+                <div className="editorial-list-row">
+                  <span className="editorial-list-idx">
+                    <value.icon size={18} />
+                  </span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{value.title}</span>
+                    <span className="editorial-list-desc">{value.desc}</span>
+                  </span>
+                </div>
+              </li>
             ))}
-          </StaggerContainer>
+          </ul>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="section team-section">
+      {/* Team — editoryal liste, avatar ufak yuvarlak thumbnail */}
+      <section className="editorial-section section">
         <div className="container">
-          <div className="section-header">
-            <FadeIn>
-              <h2 className="section-title">
-                <span>{t('about.teamTitle')}</span>
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <p className="section-subtitle">
-                {t('about.teamSubtitle')}
-              </p>
-            </FadeIn>
-          </div>
+          <FadeIn>
+            <span className="editorial-eyebrow">— {t('about.teamTitle')}</span>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="editorial-subtitle">
+              {t('about.teamSubtitle')}
+            </p>
+          </FadeIn>
 
-          <StaggerContainer className="team-grid" staggerDelay={0.1}>
+          <ul className="editorial-list">
             {team.map((member) => (
-              <StaggerItem key={member.name}>
-                <motion.div className="team-card glass-card" whileHover={{ y: -5 }}>
-                  <div
-                    className="team-avatar"
-                    style={{ background: `linear-gradient(135deg, ${member.color}40, ${member.color}10)` }}
+              <li key={member.name}>
+                <div className="editorial-list-row">
+                  <span
+                    className="editorial-list-idx"
+                    style={{
+                      width: 30, height: 30, borderRadius: '50%', overflow: 'hidden',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: `linear-gradient(135deg, ${member.color}40, ${member.color}10)`,
+                    }}
                   >
                     {member.avatar ? (
-                      <img src={member.avatar} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                      <img src={member.avatar} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <span style={{ color: member.color }}>
-                        {member.name.charAt(0)}
-                      </span>
+                      <span style={{ color: member.color }}>{member.name.charAt(0)}</span>
                     )}
-                  </div>
-                  <h4>{member.name}</h4>
-                  <p>{lang === 'en' ? (member.roleEn || member.roleTr) : (member.roleTr || member.roleEn)}</p>
-                </motion.div>
-              </StaggerItem>
+                  </span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{member.name}</span>
+                    <span className="editorial-list-desc">
+                      {lang === 'en' ? (member.roleEn || member.roleTr) : (member.roleTr || member.roleEn)}
+                    </span>
+                  </span>
+                </div>
+              </li>
             ))}
-          </StaggerContainer>
+          </ul>
           <FadeIn delay={0.3}>
-            <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <Link to="/ekip" className="btn btn-outline">
-                {lang === 'en' ? 'Meet the Full Team' : 'Tüm Ekibi Tanıyın'} →
+            <div style={{ marginTop: '32px' }}>
+              <Link to="/ekip" className="editorial-btn editorial-btn-ghost">
+                {lang === 'en' ? 'Meet the Full Team' : 'Tüm Ekibi Tanıyın'} <HiOutlineArrowRight size={16} />
               </Link>
             </div>
           </FadeIn>

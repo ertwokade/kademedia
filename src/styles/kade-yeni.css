@@ -1002,3 +1002,179 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   .kade-spot-ring { display: none !important; }
   .kade-magnet { transition: none !important; }
 }
+
+/* =====================================================================
+   EDİTORYAL DESEN — haoqi.design dili, tüm public sayfalarda paylaşılan
+   sınıflar. Kaynak: docs/research/haoqi.design/DESIGN_LANGUAGE_AND_STATUS.md
+   Önce anasayfada (Home.jsx) kuruldu, buradan tüm sayfalara yayılıyor.
+   Kart yerine ince ayraçlı liste · mono eyebrow · dev clamp tipografi ·
+   altı çizili inline linkler · altın pill buton. Yalnızca --ky-* / --bg-primary
+   gibi zaten tanımlı token'ları kullanır, kendi sabit renk tanımlamaz.
+   ===================================================================== */
+
+.editorial-section {
+  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
+}
+
+.editorial-eyebrow {
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ky-gold, #e0a81f);
+  display: inline-block;
+  margin-bottom: 22px;
+}
+
+.editorial-lead {
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 4.2vw, 3.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--ky-ink, #17130a);
+  max-width: 22ch;
+  margin: 0 0 48px;
+}
+
+.editorial-subtitle {
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--text-secondary, rgba(23, 19, 10, 0.6));
+  max-width: 56ch;
+  margin: 0 0 48px;
+}
+
+/* Editoryal alt-çizili liste (haoqi kalıbı) — servis/porjfolyo/blog satırları */
+.editorial-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
+}
+.editorial-list-link,
+.editorial-list-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--ky-line, rgba(23, 19, 10, 0.11));
+  color: var(--ky-ink, #17130a);
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.25s ease;
+}
+a.editorial-list-link:hover {
+  color: var(--ky-gold-deep, #c8901a);
+  padding-left: 14px;
+}
+.editorial-list-idx {
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  font-size: 0.78rem;
+  color: var(--ky-gold, #e0a81f);
+  min-width: 30px;
+  flex-shrink: 0;
+}
+.editorial-list-body {
+  flex: 1;
+  min-width: 0;
+}
+.editorial-list-label {
+  display: block;
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+.editorial-list-desc {
+  display: block;
+  margin-top: 6px;
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 400;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary, rgba(23, 19, 10, 0.6));
+  max-width: 62ch;
+}
+.editorial-list-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.editorial-list-tag {
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary, rgba(23, 19, 10, 0.6));
+  border: 1px solid var(--ky-line, rgba(23, 19, 10, 0.14));
+  border-radius: 100px;
+  padding: 4px 10px;
+}
+.editorial-list-arrow {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+a.editorial-list-link:hover .editorial-list-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Büyük tipografi başlık (CTA / dev section girişleri) */
+.editorial-display-title {
+  display: flex;
+  flex-direction: column;
+  font-family: 'TikTokSans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 9vw, 7.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--ky-ink, #17130a);
+  margin: 0 0 40px;
+}
+
+.editorial-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.editorial-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-family: var(--ky-mono, 'GeistMono', monospace);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.editorial-btn-primary {
+  background: linear-gradient(135deg, #f5d84a, var(--ky-gold, #e0a81f));
+  color: #17130a;
+  box-shadow: 0 10px 30px rgba(224, 168, 31, 0.32);
+}
+.editorial-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px rgba(224, 168, 31, 0.42);
+}
+.editorial-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--ky-line, rgba(23, 19, 10, 0.22));
+  color: var(--ky-ink, #17130a);
+}
+.editorial-btn-ghost:hover {
+  border-color: var(--ky-gold, #e0a81f);
+  color: var(--ky-gold-deep, #c8901a);
+}
+
+@media (max-width: 600px) {
+  .editorial-list-link, .editorial-list-row { gap: 12px; }
+}

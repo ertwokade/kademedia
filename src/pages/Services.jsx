@@ -1,22 +1,17 @@
-import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
   HiOutlineGlobe,
-  HiOutlineLightningBolt,
   HiOutlineChartBar,
-  HiOutlineCamera,
   HiOutlineFilm,
   HiOutlineChatAlt2,
   HiOutlinePencilAlt,
-  HiOutlineSpeakerphone,
   HiOutlineCode,
+  HiOutlineArrowRight,
 } from 'react-icons/hi'
-import { FaInstagram, FaFacebookF, FaTiktok, FaYoutube, FaLinkedinIn } from 'react-icons/fa'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
+import { FadeIn } from '../components/Animations'
 import './Services.css'
 
 export default function Services() {
@@ -35,7 +30,6 @@ export default function Services() {
       title: t('services.smm'),
       desc: t('services.smmDesc'),
       features: [t('services.smmFeat1'), t('services.smmFeat2'), t('services.smmFeat3'), t('services.smmFeat4')],
-      platforms: [FaInstagram, FaFacebookF, FaTiktok],
     },
     {
       icon: HiOutlinePencilAlt,
@@ -43,7 +37,6 @@ export default function Services() {
       title: t('services.contentTitle'),
       desc: t('services.contentDesc'),
       features: [t('services.contentFeat1'), t('services.contentFeat2'), t('services.contentFeat3'), t('services.contentFeat4')],
-      platforms: [FaInstagram, FaTiktok, FaYoutube],
     },
     {
       icon: HiOutlineChartBar,
@@ -51,7 +44,6 @@ export default function Services() {
       title: t('services.adsTitle'),
       desc: t('services.adsDesc'),
       features: [t('services.adsFeat1'), t('services.adsFeat2'), t('services.adsFeat3'), t('services.adsFeat4')],
-      platforms: [FaFacebookF, FaInstagram, FaTiktok],
     },
     {
       icon: HiOutlineFilm,
@@ -59,7 +51,6 @@ export default function Services() {
       title: t('services.videoTitle'),
       desc: t('services.videoDesc'),
       features: [t('services.videoFeat1'), t('services.videoFeat2'), t('services.videoFeat3'), t('services.videoFeat4')],
-      platforms: [FaInstagram, FaTiktok, FaYoutube],
     },
     {
       icon: HiOutlineChatAlt2,
@@ -67,7 +58,6 @@ export default function Services() {
       title: t('services.strategyTitle'),
       desc: t('services.strategyDesc'),
       features: [t('services.strategyFeat1'), t('services.strategyFeat2'), t('services.strategyFeat3'), t('services.strategyFeat4')],
-      platforms: [FaLinkedinIn, FaInstagram, FaFacebookF],
     },
     {
       icon: HiOutlineCode,
@@ -75,7 +65,6 @@ export default function Services() {
       title: t('services.webTitle'),
       desc: t('services.webDesc'),
       features: [t('services.webFeat1'), t('services.webFeat2'), t('services.webFeat3'), t('services.webFeat4')],
-      platforms: [FaInstagram, FaLinkedinIn],
     },
   ]
 
@@ -88,109 +77,89 @@ export default function Services() {
 
   return (
     <PageTransition>
-      {/* Hero */}
-      <section className="services-hero">
-        <PageBgAnimation type="services" />
-        <div className="grid-bg" />
-        <div className="glow-effect" style={{ top: '-150px', right: '-150px' }} />
+      {/* Hero — editoryal desen (bkz. Home.jsx): mono eyebrow + dev lead,
+          kart/badge/glow dekorasyonu yok (haoqi dilinde düz zemin). */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge">
-              <HiOutlineLightningBolt size={14} />
-              {t('services.badge')}
-            </div>
+            <span className="editorial-eyebrow">— {t('services.badge')}</span>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h1 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}>
-              {t('services.title')} <span>{t('services.titleHighlight')}</span> {t('services.titleEnd')}
+            <h1 className="editorial-lead">
+              {t('services.title')} {t('services.titleHighlight')} {t('services.titleEnd')}
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {t('services.subtitle')}
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="section">
+      {/* Hizmet listesi — kart yerine ince ayraçlı editoryal liste */}
+      <section className="editorial-section section" style={{ borderTop: 'none' }}>
         <div className="container">
-          <StaggerContainer className="services-detail-grid" staggerDelay={0.1}>
+          <ul className="editorial-list">
             {services.map((service) => (
-              <StaggerItem key={service.title}>
-                <motion.div whileHover={{ scale: 1.01 }} style={{ height: '100%' }}>
-                  <Link
-                    to={`/hizmetler/${service.slug}`}
-                    className="service-detail-card glass-card"
-                    aria-label={`${service.title} hizmet detayları`}
-                  >
-                    <div className="service-detail-header">
-                      <div className="service-detail-icon">
-                        <service.icon size={28} />
-                      </div>
-                      <h3>{service.title}</h3>
-                    </div>
-                    <p className="service-detail-desc">{service.desc}</p>
-                    <div className="service-features">
+              <li key={service.title}>
+                <Link
+                  to={`/hizmetler/${service.slug}`}
+                  className="editorial-list-link"
+                  aria-label={`${service.title} hizmet detayları`}
+                >
+                  <span className="editorial-list-idx">
+                    <service.icon size={18} />
+                  </span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{service.title}</span>
+                    <span className="editorial-list-desc">{service.desc}</span>
+                    <span className="editorial-list-tags">
                       {service.features.map((feature) => (
-                        <span key={feature} className="feature-tag">
+                        <span key={feature} className="editorial-list-tag">
                           {feature}
                         </span>
                       ))}
-                    </div>
-                    <div className="service-platforms">
-                      {service.platforms.map((Platform, i) => (
-                        <span key={i} className="platform-tag">
-                          <Platform size={14} />
-                        </span>
-                      ))}
-                    </div>
-                    <span className="service-detail-more" aria-hidden="true">Detayları gör →</span>
-                  </Link>
-                </motion.div>
-              </StaggerItem>
+                    </span>
+                  </span>
+                  <HiOutlineArrowRight className="editorial-list-arrow" size={18} />
+                </Link>
+              </li>
             ))}
-          </StaggerContainer>
+          </ul>
         </div>
       </section>
 
-      {/* Process */}
-      <section className="section process-section">
+      {/* Süreç — aynı editoryal liste kalıbı, adım numaraları */}
+      <section className="editorial-section section">
         <div className="container">
-          <div className="section-header">
-            <FadeIn>
-              <div className="section-badge">
-                <HiOutlineCamera size={14} />
-                {t('services.processBadge')}
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="section-title">
-                {t('services.processTitle')} <span>{t('services.processHighlight')}</span>?
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="section-subtitle">
-                {t('services.processSubtitle')}
-              </p>
-            </FadeIn>
-          </div>
+          <FadeIn>
+            <span className="editorial-eyebrow">— {t('services.processBadge')}</span>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="editorial-lead" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>
+              {t('services.processTitle')} {t('services.processHighlight')}?
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <p className="editorial-subtitle">
+              {t('services.processSubtitle')}
+            </p>
+          </FadeIn>
 
-          <StaggerContainer className="process-grid" staggerDelay={0.15}>
-            {process.map((item, index) => (
-              <StaggerItem key={item.step}>
-                <div className="process-card glass-card">
-                  <div className="process-step">{item.step}</div>
-                  <h3>{item.title}</h3>
-                  <p>{item.desc}</p>
-                  {index < process.length - 1 && (
-                    <div className="process-connector" />
-                  )}
+          <ul className="editorial-list">
+            {process.map((item) => (
+              <li key={item.step}>
+                <div className="editorial-list-row">
+                  <span className="editorial-list-idx">{item.step}</span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{item.title}</span>
+                    <span className="editorial-list-desc">{item.desc}</span>
+                  </span>
                 </div>
-              </StaggerItem>
+              </li>
             ))}
-          </StaggerContainer>
+          </ul>
         </div>
       </section>
     </PageTransition>
