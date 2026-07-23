@@ -12,7 +12,6 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import { submitQuoteApi } from '../api'
 import PageTransition from '../components/PageTransition'
-import PageBgAnimation from '../components/PageBgAnimation'
 import { FadeIn } from '../components/Animations'
 import './QuoteRequest.css'
 
@@ -141,18 +140,18 @@ export default function QuoteRequest() {
 
   return (
     <PageTransition>
-      <section className="quote-hero">
-        <PageBgAnimation type="services" />
-        <div className="grid-bg" />
+      {/* Hero — editoryal desen. Sihirbazın kendisi (kart seçimi, chip'ler,
+          özet paneli) bilinçli olarak değiştirilmedi: çok-seçimli etkileşimli
+          bir form akışı, editoryal alt-çizili liste UX'i burada uygun değil
+          (bkz. Packages.jsx fiyat kartları notu — aynı istisna gerekçesi). */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge"><HiOutlineCalculator size={14} /> {T('Online Teklif Sihirbazı', 'Online Quote Wizard')}</div>
-            <h1 className="section-title quote-hero-title">
-              {T('Hizmet kapsamını seçin, ', 'Choose your scope, ')}
-              <span>{T('net bir teklif talebi', 'request a clear quote')}</span>
-              {T(' gönderin', '')}
+            <span className="editorial-eyebrow">— {T('Online Teklif Sihirbazı', 'Online Quote Wizard')}</span>
+            <h1 className="editorial-lead">
+              {T('Hizmet kapsamını seçin, net bir teklif talebi gönderin', 'Choose your scope, request a clear quote')}
             </h1>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {T(
                 '3 adımda kapsamınızı belirleyin. Ücret, KDV, reklam bütçesi ve ek maliyetler yazılı teklifte netleşir.',
                 'Define your scope in three steps. Fees, taxes, media spend, and additional costs are confirmed in writing.'
