@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { HiOutlineChevronDown, HiOutlineQuestionMarkCircle } from 'react-icons/hi'
+import { HiOutlineChevronDown } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import { FAQSchema } from '../components/StructuredData'
@@ -25,33 +25,48 @@ export default function SSS() {
   return (
     <PageTransition>
       <FAQSchema items={ITEMS} />
-      <section className="sss-hero">
+      {/* Hero — editoryal desen */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge"><HiOutlineQuestionMarkCircle size={14} /> {lang === 'tr' ? 'Sık Sorulan Sorular' : 'FAQ'}</div>
-            <h1 className="section-title">{lang === 'tr' ? <>Net yanıtlar, <span>yazılı koşullar</span></> : <>Clear answers, <span>written terms</span></>}</h1>
-            <p className="section-subtitle">{lang === 'tr' ? 'Bağlayıcı kapsam ve fiyat her zaman size gönderilen yazılı teklifte yer alır.' : 'Binding scope and pricing always appear in your written proposal.'}</p>
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Sık Sorulan Sorular' : 'FAQ'}</span>
+            <h1 className="editorial-lead">{lang === 'tr' ? 'Net yanıtlar, yazılı koşullar' : 'Clear answers, written terms'}</h1>
+            <p className="editorial-subtitle">{lang === 'tr' ? 'Bağlayıcı kapsam ve fiyat her zaman size gönderilen yazılı teklifte yer alır.' : 'Binding scope and pricing always appear in your written proposal.'}</p>
           </FadeIn>
         </div>
       </section>
       <section className="section">
         <div className="container">
-          <div className="sss-liste">
+          <ul className="editorial-list">
             {ITEMS.map((item, index) => {
               const panelId = `faq-panel-${index}`
+              const isOpen = open === index
               return (
-                <div className={`sss-item glass-card ${open === index ? 'open' : ''}`} key={item.soru}>
-                  <button className="sss-soru" onClick={() => setOpen(open === index ? null : index)} aria-expanded={open === index} aria-controls={panelId}>
-                    <span>{item[questionKey]}</span><HiOutlineChevronDown size={20} aria-hidden="true" />
+                <li key={item.soru}>
+                  <button
+                    className="editorial-list-row"
+                    style={{ width: '100%', background: 'none', border: 'none', borderBottom: '1px solid var(--ky-line, rgba(23,19,10,.11))', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => setOpen(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                  >
+                    <span className="editorial-list-body">
+                      <span className="editorial-list-label">{item[questionKey]}</span>
+                      {isOpen && <span className="editorial-list-desc" id={panelId}>{item[answerKey]}</span>}
+                    </span>
+                    <HiOutlineChevronDown size={18} aria-hidden="true" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease', flexShrink: 0 }} />
                   </button>
-                  {open === index && <div className="sss-cevap" id={panelId}><p>{item[answerKey]}</p></div>}
-                </div>
+                </li>
               )
             })}
-          </div>
-          <div className="sss-cta glass-card">
-            <h2>{lang === 'tr' ? 'Başka bir sorunuz mu var?' : 'Have another question?'}</h2>
-            <Link to="/iletisim" className="btn btn-primary">{lang === 'tr' ? 'Bize yazın' : 'Contact us'}</Link>
+          </ul>
+          <div className="editorial-section section" style={{ textAlign: 'center', marginTop: 24 }}>
+            <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>
+              {lang === 'tr' ? 'BAŞKA BİR SORUNUZ MU VAR?' : 'HAVE ANOTHER QUESTION?'}
+            </h2>
+            <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+              <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{lang === 'tr' ? 'Bize yazın' : 'Contact us'}</Link>
+            </div>
           </div>
         </div>
       </section>

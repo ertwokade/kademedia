@@ -13,8 +13,7 @@ import { sendContactApi } from '../api'
 import { analytics } from '../utils/analytics'
 import { CONTACT } from '../utils/constants'
 import PageTransition from '../components/PageTransition'
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
+import { FadeIn } from '../components/Animations'
 import './Contact.css'
 
 export default function Contact() {
@@ -118,24 +117,19 @@ export default function Contact() {
 
   return (
     <PageTransition>
-      <section className="contact-hero">
-        <PageBgAnimation type="contact" />
-        <div className="grid-bg" />
-        <div className="glow-effect" style={{ top: '-150px', left: '50%', transform: 'translateX(-50%)' }} />
+      {/* Hero — editoryal desen */}
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <div className="section-badge">
-              <HiOutlineMail size={14} />
-              {t('contact.badge')}
-            </div>
+            <span className="editorial-eyebrow">— {t('contact.badge')}</span>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h1 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)' }}>
-              {t('contact.title')} <span>{t('contact.titleHighlight')}</span> {t('contact.titleEnd')}
+            <h1 className="editorial-lead">
+              {t('contact.title')} {t('contact.titleHighlight')} {t('contact.titleEnd')}
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="section-subtitle">
+            <p className="editorial-subtitle">
               {t('contact.subtitle')}
             </p>
           </FadeIn>
@@ -151,32 +145,31 @@ export default function Contact() {
                 {t('contact.infoDesc')}
               </p>
 
-              <StaggerContainer className="contact-cards" staggerDelay={0.1}>
+              {/* İletişim bilgileri — kart yerine editoryal liste (yalnızca
+                  2 öğe; form fonksiyonel kaldığı için değiştirilmedi) */}
+              <ul className="editorial-list">
                 {contactInfo.map((info) => (
-                  <StaggerItem key={info.title}>
-                    <div className="contact-card glass-card">
-                      <div className="contact-card-icon">
-                        <info.icon size={22} />
+                  <li key={info.title}>
+                    {info.link ? (
+                      <a href={info.link} className="editorial-list-link" target={info.link.startsWith('http') ? '_blank' : undefined} rel={info.link.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                        <span className="editorial-list-idx"><info.icon size={18} /></span>
+                        <span className="editorial-list-body">
+                          <span className="editorial-list-label">{info.title}</span>
+                          <span className="editorial-list-desc">{info.value}</span>
+                        </span>
+                      </a>
+                    ) : (
+                      <div className="editorial-list-row">
+                        <span className="editorial-list-idx"><info.icon size={18} /></span>
+                        <span className="editorial-list-body">
+                          <span className="editorial-list-label">{info.title}</span>
+                          <span className="editorial-list-desc">{info.value}</span>
+                        </span>
                       </div>
-                      <div>
-                        <span className="contact-card-title">{info.title}</span>
-                        {info.link ? (
-                          <a
-                            href={info.link}
-                            className="contact-card-value"
-                            target={info.link.startsWith('http') ? '_blank' : undefined}
-                            rel={info.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          >
-                            {info.value}
-                          </a>
-                        ) : (
-                          <span className="contact-card-value">{info.value}</span>
-                        )}
-                      </div>
-                    </div>
-                  </StaggerItem>
+                    )}
+                  </li>
                 ))}
-              </StaggerContainer>
+              </ul>
 
             </FadeIn>
 

@@ -5,8 +5,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import { getBlogsApi } from '../api'
 import PageTransition from '../components/PageTransition'
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
+import { FadeIn } from '../components/Animations'
 import './Blog.css'
 
 function formatDate(post, lang) {
@@ -45,75 +44,89 @@ export default function Blog() {
 
   return (
     <PageTransition>
-      <section className="blog-hero">
-        <PageBgAnimation type="blog" />
-        <div className="grid-bg" />
+      {/* Hero — editoryal desen */}
+      <section className="editorial-section section">
         <div className="container">
-          <FadeIn><div className="section-badge"><HiOutlineBookOpen size={14} />{isEN ? 'Blog' : 'Blog'}</div></FadeIn>
-          <FadeIn delay={0.1}><h1 className="section-title">{isEN ? 'Source-checked ' : 'Kaynağı kontrol edilmiş '}<span>{isEN ? 'articles' : 'yazılar'}</span></h1></FadeIn>
-          <FadeIn delay={0.2}><p className="section-subtitle">{isEN ? 'Articles are published after their claims, dates, and sources are reviewed.' : 'Yazıları; iddiaları, tarihleri ve kaynakları kontrol ettikten sonra yayınlıyoruz.'}</p></FadeIn>
+          <FadeIn><span className="editorial-eyebrow">— Blog</span></FadeIn>
+          <FadeIn delay={0.1}><h1 className="editorial-lead">{isEN ? 'Source-checked articles' : 'Kaynağı kontrol edilmiş yazılar'}</h1></FadeIn>
+          <FadeIn delay={0.2}><p className="editorial-subtitle">{isEN ? 'Articles are published after their claims, dates, and sources are reviewed.' : 'Yazıları; iddiaları, tarihleri ve kaynakları kontrol ettikten sonra yayınlıyoruz.'}</p></FadeIn>
         </div>
       </section>
 
+      {/* Yazı listesi — kart grid yerine küçük görselli editoryal liste
+          (blog için görsel tamamen kaldırılmadı: içerik taraması için
+          faydalı, haoqi.design'ın kendi "WORK" bölümünde de küçük
+          görseller kullanılıyor). */}
       <section className="section">
         <div className="container">
           {loading ? null : posts.length === 0 ? (
-            <div className="blog-empty-state glass-card">
-              <h3>{isEN ? 'No verified article is currently public.' : 'Şu anda yayında doğrulanmış bir yazı yok.'}</h3>
-              <p>{isEN ? 'Check back soon, or get in touch with a question.' : 'Yakında tekrar kontrol edin veya bir sorunuzla bize ulaşın.'}</p>
-            </div>
+            <p className="editorial-subtitle" style={{ margin: 0 }}>
+              {isEN ? 'No verified article is currently public. Check back soon, or get in touch with a question.' : 'Şu anda yayında doğrulanmış bir yazı yok. Yakında tekrar kontrol edin veya bir sorunuzla bize ulaşın.'}
+            </p>
           ) : (
-            <>
+            <ul className="editorial-list">
               {featured && (
-                <FadeIn>
-                  <Link to={`/blog/${featured.slug}`} className="blog-featured glass-card">
-                    <div className="blog-featured-image">
-                      {featured.image ? <img src={featured.image} alt="" onError={(e) => e.currentTarget.setAttribute('data-failed', 'true')} /> : '📝'}
-                    </div>
-                    <div className="blog-featured-content">
-                      <div className="blog-meta">
-                        {featured.category && <span className="blog-category">{isEN ? (featured.categoryEn || featured.category) : featured.category}</span>}
-                        <span className="blog-date"><HiOutlineCalendar size={12} /> {formatDate(featured, lang)}</span>
-                        {featured.readTime && <span className="blog-read"><HiOutlineClock size={12} /> {featured.readTime}</span>}
-                      </div>
-                      <h2>{isEN ? (featured.titleEn || featured.titleTr) : featured.titleTr}</h2>
-                      <p>{isEN ? (featured.excerptEn || featured.excerptTr) : featured.excerptTr}</p>
-                      <span className="btn btn-outline blog-read-btn">{isEN ? 'Read article' : 'Yazıyı oku'} <HiOutlineArrowRight size={14} /></span>
-                    </div>
+                <li key={featured._id || featured.slug}>
+                  <Link to={`/blog/${featured.slug}`} className="editorial-list-link">
+                    {featured.image ? (
+                      <span className="editorial-list-idx" style={{ width: 64, height: 64, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
+                        <img src={featured.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.currentTarget.setAttribute('data-failed', 'true')} />
+                      </span>
+                    ) : (
+                      <span className="editorial-list-idx"><HiOutlineBookOpen size={20} /></span>
+                    )}
+                    <span className="editorial-list-body">
+                      <span className="editorial-list-tags" style={{ marginTop: 0, marginBottom: 8 }}>
+                        {featured.category && <span className="editorial-list-tag">{isEN ? (featured.categoryEn || featured.category) : featured.category}</span>}
+                        <span className="editorial-list-tag"><HiOutlineCalendar size={11} style={{ marginRight: 4, verticalAlign: -2 }} />{formatDate(featured, lang)}</span>
+                        {featured.readTime && <span className="editorial-list-tag"><HiOutlineClock size={11} style={{ marginRight: 4, verticalAlign: -2 }} />{featured.readTime}</span>}
+                      </span>
+                      <span className="editorial-list-label" style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)' }}>{isEN ? (featured.titleEn || featured.titleTr) : featured.titleTr}</span>
+                      <span className="editorial-list-desc">{isEN ? (featured.excerptEn || featured.excerptTr) : featured.excerptTr}</span>
+                    </span>
+                    <HiOutlineArrowRight className="editorial-list-arrow" size={18} />
                   </Link>
-                </FadeIn>
+                </li>
               )}
 
-              {rest.length > 0 && (
-                <StaggerContainer className="blog-grid">
-                  {rest.map(post => (
-                    <StaggerItem key={post._id || post.slug}>
-                      <Link to={`/blog/${post.slug}`} className="blog-card glass-card">
-                        <div className="blog-card-image">
-                          {post.image ? <img src={post.image} alt="" onError={(e) => e.currentTarget.setAttribute('data-failed', 'true')} /> : '📝'}
-                        </div>
-                        <div className="blog-card-content">
-                          <div className="blog-meta">
-                            {post.category && <span className="blog-category">{isEN ? (post.categoryEn || post.category) : post.category}</span>}
-                            <span className="blog-date">{formatDate(post, lang)}</span>
-                          </div>
-                          <h3>{isEN ? (post.titleEn || post.titleTr) : post.titleTr}</h3>
-                          <p>{isEN ? (post.excerptEn || post.excerptTr) : post.excerptTr}</p>
-                          <div className="blog-card-footer">
-                            <span className="blog-read-link">{isEN ? 'Read more' : 'Devamını oku'} →</span>
-                          </div>
-                        </div>
-                      </Link>
-                    </StaggerItem>
-                  ))}
-                </StaggerContainer>
-              )}
-            </>
+              {rest.map(post => (
+                <li key={post._id || post.slug}>
+                  <Link to={`/blog/${post.slug}`} className="editorial-list-link">
+                    {post.image ? (
+                      <span className="editorial-list-idx" style={{ width: 48, height: 48, borderRadius: 6, overflow: 'hidden', flexShrink: 0 }}>
+                        <img src={post.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.currentTarget.setAttribute('data-failed', 'true')} />
+                      </span>
+                    ) : (
+                      <span className="editorial-list-idx"><HiOutlineBookOpen size={16} /></span>
+                    )}
+                    <span className="editorial-list-body">
+                      <span className="editorial-list-tags" style={{ marginTop: 0, marginBottom: 6 }}>
+                        {post.category && <span className="editorial-list-tag">{isEN ? (post.categoryEn || post.category) : post.category}</span>}
+                        <span className="editorial-list-tag">{formatDate(post, lang)}</span>
+                      </span>
+                      <span className="editorial-list-label">{isEN ? (post.titleEn || post.titleTr) : post.titleTr}</span>
+                      <span className="editorial-list-desc">{isEN ? (post.excerptEn || post.excerptTr) : post.excerptTr}</span>
+                    </span>
+                    <HiOutlineArrowRight className="editorial-list-arrow" size={18} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </section>
 
-      <section className="section"><div className="container"><div className="blog-newsletter glass-card"><h2>{isEN ? 'Need a practical answer?' : 'Pratik bir yanıt mı arıyorsunuz?'}</h2><p>{isEN ? 'Tell us what you are working on.' : 'Üzerinde çalıştığınız konuyu bize anlatın.'}</p><Link to="/iletisim" className="btn btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link></div></div></section>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>
+            {isEN ? 'NEED A PRACTICAL ANSWER?' : 'PRATİK BİR YANIT MI ARIYORSUNUZ?'}
+          </h2>
+          <p className="editorial-subtitle" style={{ margin: '0 auto 32px' }}>{isEN ? 'Tell us what you are working on.' : 'Üzerinde çalıştığınız konuyu bize anlatın.'}</p>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
     </PageTransition>
   )
 }
