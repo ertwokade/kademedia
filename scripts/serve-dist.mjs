@@ -33,7 +33,7 @@ function json(res, status, body) {
 }
 
 async function existingFile(pathname) {
-  const relative = pathname === '/' ? 'site.html' : decodeURIComponent(pathname).replace(/^\/+/, '')
+  const relative = pathname === '/' ? 'app.html' : decodeURIComponent(pathname).replace(/^\/+/, '')
   const safe = normalize(relative).replace(/^(\.\.(\/|\\|$))+/, '')
   const candidates = [join(root, safe), join(root, safe, 'index.html')]
   for (const candidate of candidates) {

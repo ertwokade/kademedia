@@ -2,23 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-// Dev-only: prod'daki özel statik ana sayfa rewrite'ını taklit eder.
-function serveStaticLandingAtRoot() {
-  return {
-    name: 'serve-static-landing-at-root',
-    configureServer(server) {
-      server.middlewares.use((req, _res, next) => {
-        const url = (req.url || '').split('?')[0]
-        // Sadece anasayfa statik (site.html); diğer route'lar React (SSG mimarisi).
-        if (url === '/') req.url = '/site.html'
-        next()
-      })
-    },
-  }
-}
+// NOT: Anasayfa artık native React (src/pages/Home.jsx) — WebGL hero izole
+// /hero.html iframe'inde. Eski `/` → site.html rewrite'ı (dev ve vercel.json'da)
+// kaldırıldı; `/` doğrudan SPA'ya düşer.
 
 export default defineConfig({
-  plugins: [react(), serveStaticLandingAtRoot()],
+  plugins: [react()],
   server: {
     hmr: {
       overlay: false,
