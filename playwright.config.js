@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx'
+
 // Canlı Supabase kredensiyali olmadan çalıştırılır — bu yüzden testler
 // "sayfa çöküyor mu / yetkisiz erişim engelleniyor mu / mobilde yatay
 // taşma var mı" gibi backend-veri-bağımsız senaryolara odaklanır.
@@ -21,7 +23,7 @@ export default defineConfig({
   // preview modunda `/` 404 veriyordu çünkü build sonrası dist/index.html
   // app.html olarak yeniden adlandırılıyor).
   webServer: {
-    command: 'npx vite --port 4173',
+    command: `${npxCommand} vite --port 4173`,
     url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,

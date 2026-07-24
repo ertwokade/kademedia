@@ -2,6 +2,7 @@ import 'server-only'
 
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
+import { hasValidSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 interface RequestProfileContext {
   profile?: { displayName?: string; expertise?: string; goals?: string[] }
@@ -33,7 +34,7 @@ function safeList(value: unknown, maxItems = 15) {
 }
 
 async function trustedProfileContext(): Promise<RequestProfileContext | null> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null
+  if (!hasValidSupabasePublicConfig()) return null
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()

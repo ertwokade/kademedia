@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { hasValidSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,7 +13,7 @@ export async function GET() {
     process.env.OPENAI_API_KEY,
     process.env.GEMINI_API_KEY,
   ]
-  const authConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  const authConfigured = hasValidSupabasePublicConfig()
   const aiConfigured = providers.some((value) => Boolean(value?.trim()))
   const healthy = authConfigured && aiConfigured
   return NextResponse.json({

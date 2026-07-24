@@ -25,6 +25,15 @@ export default function Footer() {
         </div>
       </div>
 
+      <nav className="kfoot-resources" aria-label="Kaynaklar">
+        <Link to="/fiyat-hesaplama">FİYAT HESAPLA</Link>
+        <Link to="/neden-biz">NEDEN BİZ</Link>
+        <Link to="/basin">BASIN</Link>
+        <Link to="/referans-programi">REFERANS PROGRAMI</Link>
+        <Link to="/podcast-webinar">PODCAST & WEBINAR</Link>
+        <Link to="/bulten-arsivi">BÜLTEN ARŞİVİ</Link>
+      </nav>
+
       <div className="kfoot-legal">
         <span>© {new Date().getFullYear()} {BRAND.name.toUpperCase()} · {BRAND.city.toUpperCase()}</span>
         <div className="kfoot-legal-links">

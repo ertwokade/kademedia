@@ -11,6 +11,7 @@ import {
 import { stripBasePath } from '@/lib/appConfig'
 import { distributedRateLimit, getRateLimitKey, rateLimit, rateLimitHeaders } from '@/lib/rateLimit'
 import { supabaseCookieOptions } from '@/lib/supabase/cookieOptions'
+import { getSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 function allowedMutationOrigins(request: NextRequest) {
   const allowed = new Set<string>([request.nextUrl.origin])
@@ -100,8 +101,9 @@ export async function proxy(request: NextRequest) {
     return withOperationsSecurityHeaders(supabaseResponse)
   }
 
-  // Protected routes fail closed when the auth provider is missing.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  // Protected routes fail closed when the auth provider is missing or malformed.
+  const supabaseConfig = getSupabasePublicConfig()
+  if (!supabaseConfig.valid) {
     if (requiresAuth) {
       if (isApi) {
         return NextResponse.json({ error: 'Kimlik doğrulama yapılandırılmamış.' }, { status: 503 })
@@ -121,8 +123,8 @@ export async function proxy(request: NextRequest) {
   }
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseConfig.url,
+    supabaseConfig.anonKey,
     {
       cookieOptions: supabaseCookieOptions,
       cookies: {

@@ -9,7 +9,7 @@ import { getShopierProduct, parseMoneyToMinor, validateShopierPayment } from '..
 import { reconcileShopierOrders } from '../../server/api/_lib/shopierReconciliation.js'
 import { publicBlogFilter } from '../../server/api/blog.js'
 import { sanitizePartnerUpdate } from '../../server/api/partners.js'
-import apiHandler from '../../api/[...path].js'
+import apiHandler, { isPublicPost } from '../../api/[...path].js'
 
 function responseDouble() {
   return {
@@ -36,7 +36,8 @@ test('CSRF tokens are signed and tamper evident', () => {
   try {
     const token = createCsrfToken()
     assert.equal(verifyCsrfToken(token), true)
-    assert.equal(verifyCsrfToken(`${token.slice(0, -1)}0`), false)
+    const replacement = token.endsWith('0') ? '1' : '0'
+    assert.equal(verifyCsrfToken(`${token.slice(0, -1)}${replacement}`), false)
   } finally {
     if (previousSecret === undefined) delete process.env.JWT_SECRET
     else process.env.JWT_SECRET = previousSecret
@@ -71,6 +72,11 @@ test('API dispatcher applies no-store even to unknown endpoints', async () => {
   await apiHandler({ method: 'GET', query: { path: ['does-not-exist'] }, headers: {}, url: '/api/does-not-exist' }, res)
   assert.equal(res.statusCode, 404)
   assert.equal(res.headers['cache-control'], 'private, no-store, max-age=0')
+})
+
+test('public referral submissions bypass session CSRF while admin mutations do not', () => {
+  assert.equal(isPublicPost({ method: 'POST', query: {}, routePath: 'referrals' }), true)
+  assert.equal(isPublicPost({ method: 'PUT', query: {}, routePath: 'referrals' }), false)
 })
 
 test('Shopier webhook signature rejects forged payloads', () => {

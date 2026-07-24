@@ -344,8 +344,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/fiyat-hesaplama"
     },
     {
@@ -359,8 +359,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/basin"
     },
     {
@@ -374,8 +374,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/neden-biz"
     },
     {
@@ -389,8 +389,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/referans-programi"
     },
     {
@@ -404,8 +404,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/podcast-webinar"
     },
     {
@@ -419,8 +419,8 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
-      "expectedStatus": 404,
+      "implemented": true,
+      "expectedStatus": 200,
       "testPath": "/bulten-arsivi"
     },
     {
@@ -479,7 +479,7 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
+      "implemented": true,
       "expectedStatus": 404,
       "testPath": "/blog/audit-not-found"
     },
@@ -494,7 +494,7 @@
       "roles": [
         "anonymous"
       ],
-      "implemented": false,
+      "implemented": true,
       "expectedStatus": 404,
       "testPath": "/partnerler/000000000000000000000000"
     },

@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import {
   HiOutlineArrowLeft,
   HiOutlineArrowRight,
@@ -18,7 +17,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
 import { ServiceSchema } from '../components/StructuredData'
 import PageTransition from '../components/PageTransition'
-import { FadeIn, StaggerContainer, StaggerItem } from '../components/Animations'
+import { FadeIn } from '../components/Animations'
 import './Services.css'
 import NotFound from './NotFound'
 
@@ -174,157 +173,150 @@ export default function ServiceDetail() {
   return (
     <PageTransition>
       <ServiceSchema name={title} description={desc} url={`/hizmetler/${slug}`} />
-      <section className="services-hero">
-        <div className="grid-bg" />
-        <div className="glow-effect" style={{ top: '-150px', right: '-150px' }} />
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <Link to="/hizmetler" className="partner-back" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: 16 }}>
+            <Link to="/hizmetler" className="editorial-btn editorial-btn-ghost" style={{ marginBottom: 32 }}>
               <HiOutlineArrowLeft size={16} />
               {lang === 'tr' ? 'Tüm Hizmetler' : 'All Services'}
             </Link>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'center', marginBottom: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 14, background: `${service.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <service.icon size={28} style={{ color: service.color }} />
-              </div>
-            </div>
-            <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}>
-              {title}
-            </h1>
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Hizmet detayı' : 'Service detail'}</span>
+            <h1 className="editorial-lead">{title}</h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="section-subtitle" style={{ maxWidth: 640 }}>{desc}</p>
+            <p className="editorial-subtitle">{desc}</p>
           </FadeIn>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          {problem && (
+      {problem && (
+        <section className="editorial-section section" style={{ borderTop: 'none' }}>
+          <div className="container">
             <FadeIn>
-              <div className="glass-card" style={{ padding: '28px 32px', maxWidth: 780, margin: '0 auto 44px' }}>
-                <h2 style={{ color: 'var(--white)', fontSize: '1.2rem', marginBottom: 10 }}>
-                  {lang === 'tr' ? 'Hangi soruna çözüm sunuyoruz?' : 'What problem does it solve?'}
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>{problem}</p>
-              </div>
+              <span className="editorial-eyebrow">— {lang === 'tr' ? 'Çözdüğümüz sorun' : 'Problem we solve'}</span>
+              <p className="editorial-lead" style={{ fontSize: 'clamp(1.35rem, 3vw, 2.3rem)' }}>{problem}</p>
             </FadeIn>
-          )}
-          <FadeIn>
-            <h2 style={{ color: 'var(--white)', fontSize: '1.4rem', textAlign: 'center', marginBottom: 32 }}>
-              {lang === 'tr' ? 'Neler Yapıyoruz?' : 'What We Do'}
-            </h2>
-          </FadeIn>
-          <StaggerContainer className="services-detail-grid" staggerDelay={0.08} style={{ maxWidth: 800, margin: '0 auto' }}>
-            {features.map((feat) => (
-              <StaggerItem key={feat}>
-                <motion.div className="glass-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 12 }} whileHover={{ scale: 1.02 }}>
-                  <HiOutlineBadgeCheck size={20} style={{ color: service.color, flexShrink: 0 }} />
-                  <span style={{ color: 'var(--white)', fontSize: '0.95rem' }}>{feat}</span>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+          </div>
+        </section>
+      )}
 
-          {/* Çalışma süreci */}
+      <section className="editorial-section section">
+        <div className="container">
           <FadeIn>
-            <h2 style={{ color: 'var(--white)', fontSize: '1.4rem', textAlign: 'center', margin: '56px 0 28px' }}>
-              {lang === 'tr' ? 'Çalışma Süreci' : 'How We Work'}
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Kapsam' : 'Scope'}</span>
+            <h2 className="editorial-lead" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>
+              {lang === 'tr' ? 'Neler yapıyoruz?' : 'What we do'}
             </h2>
           </FadeIn>
-          <StaggerContainer className="process-grid" staggerDelay={0.1} style={{ maxWidth: 940, margin: '0 auto' }}>
-            {PROCESS.map((s) => (
-              <StaggerItem key={s.n}>
-                <div className="process-card glass-card">
-                  <div className="process-step">{s.n}</div>
-                  <h3>{lang === 'tr' ? s.tTr : s.tEn}</h3>
-                  <p>{lang === 'tr' ? s.dTr : s.dEn}</p>
+          <ul className="editorial-list">
+            {features.map((feature) => (
+              <li key={feature}>
+                <div className="editorial-list-row">
+                  <span className="editorial-list-idx"><HiOutlineBadgeCheck size={18} /></span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{feature}</span>
+                  </span>
                 </div>
-              </StaggerItem>
+              </li>
             ))}
-          </StaggerContainer>
+          </ul>
+        </div>
+      </section>
 
-          {/* Teslimatlar */}
+      <section className="editorial-section section">
+        <div className="container">
           <FadeIn>
-            <div style={{ maxWidth: 780, margin: '52px auto 0' }}>
-              <h2 style={{ color: 'var(--white)', fontSize: '1.4rem', textAlign: 'center', marginBottom: 20 }}>
-                {lang === 'tr' ? 'Ne Teslim Ediyoruz?' : 'What You Get'}
-              </h2>
-              <div style={{ display: 'grid', gap: 12 }}>
-                {deliverables.map((d) => (
-                  <div key={d} className="glass-card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <HiOutlineBadgeCheck size={18} style={{ color: service.color, flexShrink: 0 }} />
-                    <span style={{ color: 'var(--white)', fontSize: '0.95rem' }}>{d}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Çalışma süreci' : 'How we work'}</span>
           </FadeIn>
-
-          {/* Gerçekçi beklenti */}
-          <FadeIn>
-            <p style={{ maxWidth: 640, margin: '26px auto 0', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-              {lang === 'tr'
-                ? 'Sonuçlar sektör, bütçe ve rekabete göre değişir; garanti vermeyiz, süreci ve metrikleri şeffaf paylaşırız.'
-                : 'Results vary by sector, budget and competition; we make no guarantees and share the process and metrics transparently.'}
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 32 }}>
-              {service.platforms.map((Platform, i) => (
-                <div key={i} style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
-                  <Platform size={18} />
+          <ul className="editorial-list">
+            {PROCESS.map((step) => (
+              <li key={step.n}>
+                <div className="editorial-list-row">
+                  <span className="editorial-list-idx">{step.n}</span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{lang === 'tr' ? step.tTr : step.tEn}</span>
+                    <span className="editorial-list-desc">{lang === 'tr' ? step.dTr : step.dEn}</span>
+                  </span>
                 </div>
-              ))}
-            </div>
-          </FadeIn>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-          {/* İlgili hizmetler */}
+      <section className="editorial-section section">
+        <div className="container">
           <FadeIn>
-            <h2 style={{ color: 'var(--white)', fontSize: '1.2rem', textAlign: 'center', margin: '52px 0 20px' }}>
-              {lang === 'tr' ? 'İlgili Hizmetler' : 'Related Services'}
+            <span className="editorial-eyebrow">— {lang === 'tr' ? 'Teslimatlar' : 'Deliverables'}</span>
+            <h2 className="editorial-lead" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>
+              {lang === 'tr' ? 'Ne teslim ediyoruz?' : 'What you get'}
             </h2>
           </FadeIn>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, gap: 16, flexWrap: 'wrap' }}>
+          <ul className="editorial-list">
+            {deliverables.map((deliverable) => (
+              <li key={deliverable}>
+                <div className="editorial-list-row">
+                  <span className="editorial-list-idx"><HiOutlineBadgeCheck size={18} /></span>
+                  <span className="editorial-list-body">
+                    <span className="editorial-list-label">{deliverable}</span>
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="editorial-subtitle" style={{ marginTop: 28 }}>
+            {lang === 'tr'
+              ? 'Sonuçlar sektör, bütçe ve rekabete göre değişir; garanti vermeyiz, süreci ve metrikleri şeffaf paylaşırız.'
+              : 'Results vary by sector, budget and competition; we make no guarantees and share the process and metrics transparently.'}
+          </p>
+          <div className="editorial-list-tags">
+            {service.platforms.map((Platform, index) => (
+              <span className="editorial-list-tag" key={index}><Platform size={14} aria-hidden="true" /></span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="editorial-section section">
+        <div className="container">
+          <span className="editorial-eyebrow">— {lang === 'tr' ? 'İlgili hizmetler' : 'Related services'}</span>
+          <div className="editorial-actions">
             {prevSlug ? (
-              <Link to={`/hizmetler/${prevSlug}`} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Link to={`/hizmetler/${prevSlug}`} className="editorial-btn editorial-btn-ghost">
                 <HiOutlineArrowLeft size={16} />
                 {lang === 'tr' ? servicesMap[prevSlug].titleTr : servicesMap[prevSlug].titleEn}
               </Link>
-            ) : <div />}
+            ) : null}
             {nextSlug && (
-              <Link to={`/hizmetler/${nextSlug}`} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Link to={`/hizmetler/${nextSlug}`} className="editorial-btn editorial-btn-ghost">
                 {lang === 'tr' ? servicesMap[nextSlug].titleTr : servicesMap[nextSlug].titleEn}
                 <HiOutlineArrowRight size={16} />
               </Link>
             )}
           </div>
+        </div>
+      </section>
 
-          {/* CTA */}
-          <FadeIn delay={0.3}>
-            <div className="glass-card" style={{ textAlign: 'center', padding: '48px 32px', marginTop: 40 }}>
-              <h3 style={{ color: 'var(--white)', fontSize: '1.3rem', marginBottom: 12 }}>
-                {lang === 'tr' ? 'Bu Hizmeti Almak İster misiniz?' : 'Interested in This Service?'}
-              </h3>
-              <p style={{ color: 'var(--text-secondary)', maxWidth: 440, margin: '0 auto 24px', lineHeight: 1.6 }}>
-                {lang === 'tr'
-                  ? 'İhtiyacınızı paylaşın; kapsamı ve çalışma koşullarını yazılı teklifte netleştirelim.'
-                  : "Share your needs; we'll clarify scope and terms in a written proposal."}
-              </p>
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link to="/iletisim" className="btn btn-primary">
-                  {lang === 'tr' ? 'Teklif İste' : 'Request a Proposal'}
-                  <HiOutlineArrowRight size={16} />
-                </Link>
-                <Link to="/paketler" className="btn btn-outline">
-                  {lang === 'tr' ? 'Paketleri İncele' : 'View Packages'}
-                </Link>
-              </div>
-            </div>
-          </FadeIn>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>
+            {lang === 'tr' ? 'BU HİZMET İÇİN KAPSAM OLUŞTURALIM' : 'LET’S DEFINE THE SCOPE'}
+          </h2>
+          <p className="editorial-subtitle" style={{ margin: '0 auto 32px' }}>
+            {lang === 'tr'
+              ? 'İhtiyacınızı paylaşın; kapsamı ve çalışma koşullarını yazılı teklifte netleştirelim.'
+              : "Share your needs; we'll clarify scope and terms in a written proposal."}
+          </p>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">
+              {lang === 'tr' ? 'Teklif İste' : 'Request a Proposal'} <HiOutlineArrowRight size={16} />
+            </Link>
+            <Link to="/paketler" className="editorial-btn editorial-btn-ghost">
+              {lang === 'tr' ? 'Paketleri İncele' : 'View Packages'}
+            </Link>
+          </div>
         </div>
       </section>
     </PageTransition>

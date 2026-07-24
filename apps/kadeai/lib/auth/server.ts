@@ -1,10 +1,11 @@
 import 'server-only'
 
 import { createClient } from '@/lib/supabase/server'
+import { hasValidSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 export async function getAuthenticatedUser() {
   if (process.env.NODE_ENV !== 'production' && process.env.KADE_DISABLE_AUTH === '1') return null
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null
+  if (!hasValidSupabasePublicConfig()) return null
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()

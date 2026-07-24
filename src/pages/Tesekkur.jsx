@@ -11,15 +11,6 @@ import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
 import './Tesekkur.css'
 
-// Split title at the last word to wrap it in the highlight <span>
-function splitTitle(baslik) {
-  const parts = (baslik || '').trim().split(/\s+/)
-  if (parts.length < 2) return { before: '', highlight: baslik || '' }
-  const highlight = parts[parts.length - 1]
-  const before = parts.slice(0, -1).join(' ')
-  return { before, highlight }
-}
-
 export default function Tesekkur() {
   const location = useLocation()
   const submitted = location.state?.submitted === true
@@ -40,13 +31,9 @@ export default function Tesekkur() {
     }
   }, [])
 
-  const { before, highlight } = splitTitle(title)
-
   return (
     <PageTransition>
-      <section className="tesekkur-section">
-        <div className="grid-bg" />
-        <div className="glow-effect tesekkur-glow" />
+      <section className="editorial-section section tesekkur-section">
         <div className="container tesekkur-container">
           <motion.div
             className="tesekkur-ikon-wrap"
@@ -58,13 +45,12 @@ export default function Tesekkur() {
           </motion.div>
 
           <FadeIn delay={0.2}>
-            <h1 className="tesekkur-baslik">
-              {before ? <>{before} <span>{highlight}</span></> : <span>{highlight}</span>}
-            </h1>
+            <span className="editorial-eyebrow">— Talep durumu</span>
+            <h1 className="editorial-lead" style={{ maxWidth: '18ch', textAlign: 'center' }}>{title}</h1>
           </FadeIn>
 
           <FadeIn delay={0.3}>
-            <p className="tesekkur-alt">
+            <p className="editorial-subtitle" style={{ textAlign: 'center' }}>
               {submitted
                 ? 'Mesajınızı aldık, kaydedildi.'
                 : 'Bu sayfayı doğrudan açmış ya da yenilemiş görünüyorsunuz. Bu ekrandan daha önce gönderdiğiniz bir talebin durumunu göremiyoruz.'}
@@ -72,18 +58,21 @@ export default function Tesekkur() {
           </FadeIn>
 
           <FadeIn delay={0.35}>
-            <div className="tesekkur-bekleme glass-card">
-              <HiOutlineMail size={18} />
-              <span>{submitted ? 'Ek bilgi paylaşmak için' : 'Talebinizi doğrulamak veya yeniden iletmek için'} <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></span>
+            <div className="editorial-list-row" style={{ width: '100%' }}>
+              <span className="editorial-list-idx"><HiOutlineMail size={18} /></span>
+              <span className="editorial-list-body">
+                <span className="editorial-list-label">{submitted ? 'Ek bilgi paylaşmak için' : 'Talebinizi doğrulamak veya yeniden iletmek için'}</span>
+                <a className="editorial-list-desc" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </span>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.55}>
-            <div className="tesekkur-linkler">
-              <Link to="/" className="btn btn-outline">
+            <div className="editorial-actions" style={{ justifyContent: 'center', marginTop: 32 }}>
+              <Link to="/" className="editorial-btn editorial-btn-ghost">
                 Anasayfaya Dön
               </Link>
-              <Link to="/iletisim" className="btn btn-primary">
+              <Link to="/iletisim" className="editorial-btn editorial-btn-primary">
                 İletişim sayfasına git
               </Link>
             </div>

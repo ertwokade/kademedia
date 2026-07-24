@@ -5,7 +5,22 @@
 import { chromium } from 'playwright'
 
 const BASE = process.argv[2] || 'http://localhost:5173'
-const STATIC_ROUTES = ['/hakkimizda', '/hizmetler', '/iletisim', '/paketler', '/sss', '/neden-biz', '/ekip', '/kariyer', '/basin', '/tesekkur']
+const STATIC_ROUTES = [
+  '/hakkimizda',
+  '/hizmetler',
+  '/iletisim',
+  '/paketler',
+  '/sss',
+  '/fiyat-hesaplama',
+  '/neden-biz',
+  '/ekip',
+  '/kariyer',
+  '/basin',
+  '/referans-programi',
+  '/podcast-webinar',
+  '/bulten-arsivi',
+  '/tesekkur',
+]
 const REACT_ROUTES = ['/portfolio', '/blog', '/partnerler', '/teklif-al', '/giris', '/referanslar', '/kade-kit']
 const VIEWPORTS = [{ w: 375, h: 812 }, { w: 768, h: 1024 }, { w: 1440, h: 900 }]
 

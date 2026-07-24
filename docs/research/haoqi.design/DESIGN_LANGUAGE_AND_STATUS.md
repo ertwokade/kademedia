@@ -57,12 +57,23 @@ desenindeydi), `KVKK/Gizlilik/CerezPolitikasi/TelifHaklari.jsx`
 - Hukuki düz yazı gövdesi (KVKK vb. metin içeriği) — liste formatına
   uygun değil, yalnızca konteyner/başlık stili değişti.
 
-**Kalan — henüz dokunulmayan public sayfalar:** `ServiceDetail.jsx`,
-`PartnerDetail.jsx`, `BlogDetail.jsx`, `CaseStudies.jsx`,
-`NewMediaAgency.jsx`, `LinkProfile.jsx`, `Tesekkur.jsx` ve gated alanlar
-(`CustomerPortal.jsx`, `Admin.jsx`, Organizasyon Kiti panelleri, giriş
-sayfaları) — bunlar bu oturumun kapsamı dışında bırakıldı, ayrı bir
-dalga gerektirir.
+### ✅ Devam — Seçenek B, 3. oturum: kalan pazarlama sayfaları
+
+`ServiceDetail.jsx`, `PartnerDetail.jsx`, `BlogDetail.jsx`,
+`CaseStudies.jsx`, `NewMediaAgency.jsx` ve `Tesekkur.jsx` hero, liste ve CTA
+katmanlarında paylaşılan editoryal desene geçirildi. CMS veri yükleme, SEO
+schema, analitik, route ve talep-durumu davranışları korunarak glass-card/glow
+ağırlığı azaltıldı.
+
+**Bilinçli istisnalar:**
+
+- `LinkProfile.jsx`: bağımsız link-in-bio ürünü; profil sahibinin tema/aksan
+  seçimini taşıyan koyu, mobil-first kabuk ürün işlevinin parçası.
+- `CustomerPortal.jsx`, `Admin.jsx`, Organizasyon Kiti ve giriş sayfaları:
+  operasyonel/gated yüzeyler. Pazarlama sayfalarının dev tipografisini
+  doğrudan uygulamak veri yoğunluğu ve görev tamamlama UX'ini zayıflatır.
+  Bunlarda aynı marka tokenları korunur; ayrı bir panel yoğunluk standardı
+  gerekir.
 
 **Desen (değişmedi, referans):**
 1. Kart yerine editoryal liste/grid; ince `--ky-line` ayraçlar (istisnalar yukarıda).
@@ -70,10 +81,19 @@ dalga gerektirir.
 3. Buton: altın pill (`.editorial-btn-primary`) — tüm sayfalarda aynı radius/padding/font.
 4. Bölüm ritmi: `.section` + üst `--ky-line` border (`.editorial-section`).
 
-**Doğrulama notu:** Bu oturumda `npm run build` bu sandboxta çalıştırılamadı
-(node_modules eksik ikili dosyalar). Her dosya için parantez/süslü parantez
-dengesi script ile kontrol edildi, ancak gerçek bir derleme/görsel QA
-(Phase 5) yapılmadı — deploy sonrası canlıda kontrol edilmeli.
+### ✅ Devam — Seçenek B, 4. oturum: eksik public rotalar
+
+`PriceCalculator.jsx`, `Basin.jsx`, `NedenBiz.jsx`, `ReferralProgram.jsx`,
+`PodcastWebinar.jsx` ve `NewsletterArchive.jsx` aynı editoryal sınıflarla
+eklendi. Admin içerik şemaları public sayfalara bağlandı; doğrulanmamış basın
+haberi, istatistik, yayın veya bülten fallback'i gösterilmiyor. Footer kaynak
+navigasyonu, sitemap ve statik HTML üretimi güncellendi.
+
+**Doğrulama notu (24 Temmuz 2026):** `npm.cmd run legacy:build` 562 modül ve
+43 statik rota entry'siyle geçti. Route denetimi 169/169, unit testler 27/27 ve
+Playwright 70/70 geçti. Canlı tarayıcıda altı yeni rota 1440×1000 ve 390×844
+viewportlarda kontrol edildi; doğru başlıklar render oldu ve yatay taşma
+görülmedi. Fiyat hesaplayıcının form etkileşimi ayrıca doğrulandı.
 
 ## 3. Önemli not — "koyu" vs "krem"
 Keşifte doğrulandı: **haoqi'nin gerçek teması açık/krem** (`#fbfaf4`), koyu değil.

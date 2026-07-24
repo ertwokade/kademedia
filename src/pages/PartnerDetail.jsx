@@ -8,7 +8,6 @@ import { BreadcrumbSchema } from '../components/StructuredData'
 import { analytics } from '../utils/analytics'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import NotFound from './NotFound'
 import './Partners.css'
 
@@ -53,58 +52,75 @@ export default function PartnerDetail() {
     <PageTransition>
       <BreadcrumbSchema items={[{ name: isEN ? 'Partners' : 'Partnerler', path: '/partnerler' }, { name, path: `/partnerler/${slug}` }]} />
 
-      <section className="partner-detail-hero">
-        <PageBgAnimation type="partners" />
-        <div className="grid-bg" />
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <Link to="/partnerler" className="partner-back">
+            <Link to="/partnerler" className="editorial-btn editorial-btn-ghost" style={{ marginBottom: 32 }}>
               <HiOutlineArrowLeft size={14} /> {isEN ? 'All partners' : 'Tüm partnerler'}
             </Link>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div className="partner-detail-header">
-              <div className="partner-detail-logo" style={{ borderColor: partner.color || 'var(--border-color)', background: `${partner.color || '#eac321'}15` }}>
-                {partner.logo ? <img src={partner.logo} alt={name} style={{ width: '60%', height: '60%', objectFit: 'contain' }} /> : name.charAt(0)}
-              </div>
-              <div>
-                {category && <div className="partner-detail-category" style={{ color: partner.color || 'var(--primary)' }}>{category}</div>}
-                <h1>{name}</h1>
-              </div>
-            </div>
+            <span className="editorial-eyebrow">— {category || (isEN ? 'Partnership' : 'İş ortaklığı')}</span>
+            <h1 className="editorial-lead">{name}</h1>
           </FadeIn>
-          {desc && <FadeIn delay={0.2}><p className="partner-detail-desc">{desc}</p></FadeIn>}
+          {desc && <FadeIn delay={0.2}><p className="editorial-subtitle">{desc}</p></FadeIn>}
         </div>
       </section>
 
-      <section className="section">
+      <section className="editorial-section section" style={{ borderTop: 'none' }}>
         <div className="container">
-          <div className="partner-detail-grid">
-            {services.length > 0 && (
+          {services.length > 0 && (
+            <>
               <FadeIn>
-                <div className="partner-detail-section glass-card">
-                  <h3><HiOutlineSparkles size={18} /> {isEN ? 'Services' : 'Hizmetler'}</h3>
-                  <div className="partner-service-tags">
-                    {services.map((s, i) => <span key={i} className="partner-service-tag">{s}</span>)}
-                  </div>
-                </div>
+                <span className="editorial-eyebrow">— {isEN ? 'Services' : 'Hizmetler'}</span>
               </FadeIn>
-            )}
-            {results.length > 0 && (
-              <FadeIn delay={0.1}>
-                <div className="partner-detail-section glass-card">
-                  <h3><HiOutlineChartBar size={18} /> {isEN ? 'Results' : 'Sonuçlar'}</h3>
-                  <div className="partner-results">
-                    {results.map((r, i) => <div key={i} className="partner-result">{r}</div>)}
+              <ul className="editorial-list">
+                {services.map((service) => (
+                  <li key={service}>
+                    <div className="editorial-list-row">
+                      <span className="editorial-list-idx"><HiOutlineSparkles size={18} /></span>
+                      <span className="editorial-list-body">
+                        <span className="editorial-list-label">{service}</span>
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </section>
+
+      {results.length > 0 && (
+        <section className="editorial-section section">
+          <div className="container">
+            <FadeIn>
+              <span className="editorial-eyebrow">— {isEN ? 'Verified results' : 'Doğrulanmış sonuçlar'}</span>
+            </FadeIn>
+            <ul className="editorial-list">
+              {results.map((result) => (
+                <li key={result}>
+                  <div className="editorial-list-row">
+                    <span className="editorial-list-idx"><HiOutlineChartBar size={18} /></span>
+                    <span className="editorial-list-body">
+                      <span className="editorial-list-label">{result}</span>
+                    </span>
                   </div>
-                </div>
-              </FadeIn>
-            )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>{isEN ? 'PARTNERSHIP INQUIRIES' : 'İŞ ORTAKLIĞI GÖRÜŞMELERİ'}</h2>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link>
           </div>
         </div>
       </section>
-
-      <section className="section"><div className="container"><div className="portfolio-cta glass-card"><h2>{isEN ? 'Partnership inquiries' : 'İş ortaklığı görüşmeleri'}</h2><Link to="/iletisim" className="btn btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link></div></div></section>
     </PageTransition>
   )
 }

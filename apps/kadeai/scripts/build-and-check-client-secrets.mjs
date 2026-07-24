@@ -16,10 +16,20 @@ const environment = {
 
 function run(command, args, cwd) {
   const result = spawnSync(command, args, { cwd, env: environment, stdio: 'inherit' })
+  if (result.error) {
+    console.error(`Komut başlatılamadı: ${command}`, result.error.message)
+    process.exit(1)
+  }
   if (result.status !== 0) process.exit(result.status ?? 1)
 }
 
 const root = resolve(process.cwd(), '..', '..')
-run('npm', ['run', 'build'], root)
-run('npm', ['run', 'build'], process.cwd())
+const npmExecPath = process.env.npm_execpath
+if (npmExecPath) {
+  run(process.execPath, [npmExecPath, 'run', 'build'], root)
+  run(process.execPath, [npmExecPath, 'run', 'build'], process.cwd())
+} else {
+  run('npm', ['run', 'build'], root)
+  run('npm', ['run', 'build'], process.cwd())
+}
 run(process.execPath, ['scripts/check-client-secrets.mjs'], process.cwd())

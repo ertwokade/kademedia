@@ -1,0 +1,120 @@
+.growth-page-note {
+  max-width: 760px;
+  padding: 18px 20px;
+  border: 1px solid rgba(23, 19, 10, 0.12);
+  border-radius: 12px;
+  color: rgba(23, 19, 10, 0.68);
+  background: rgba(255, 255, 255, 0.28);
+  line-height: 1.65;
+}
+
+.growth-form {
+  max-width: 980px;
+  padding: clamp(22px, 4vw, 42px);
+  border: 1px solid rgba(23, 19, 10, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.growth-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.growth-field {
+  display: grid;
+  gap: 8px;
+}
+
+.growth-field--wide {
+  grid-column: 1 / -1;
+}
+
+.growth-field label,
+.growth-field legend {
+  color: rgba(23, 19, 10, 0.76);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.growth-field input,
+.growth-field select,
+.growth-field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid rgba(23, 19, 10, 0.18);
+  border-radius: 10px;
+  color: #17130a;
+  background: rgba(255, 255, 255, 0.72);
+  font: inherit;
+}
+
+.growth-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.growth-field input:focus-visible,
+.growth-field select:focus-visible,
+.growth-field textarea:focus-visible {
+  outline: 3px solid rgba(224, 168, 31, 0.28);
+  border-color: #b7830f;
+}
+
+.growth-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(23, 19, 10, 0.72);
+  line-height: 1.55;
+}
+
+.growth-check input {
+  width: 18px;
+  min-height: 18px;
+  margin-top: 3px;
+}
+
+.growth-result {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(23, 19, 10, 0.12);
+}
+
+.growth-result strong {
+  color: #17130a;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.growth-status {
+  min-height: 24px;
+  color: rgba(23, 19, 10, 0.72);
+  font-size: 0.92rem;
+}
+
+.growth-status[data-tone='success'] {
+  color: #286c3b;
+}
+
+.growth-status[data-tone='error'] {
+  color: #9f2f28;
+}
+
+@media (max-width: 720px) {
+  .growth-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .growth-field--wide {
+    grid-column: auto;
+  }
+}

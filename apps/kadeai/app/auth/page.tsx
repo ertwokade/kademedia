@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { apiPath, withBasePath } from '@/lib/appConfig'
 import KadeLogo from '@/components/brand/KadeLogo'
 import { captureAnalytics } from '@/lib/analytics/client'
+import { hasValidSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 type Mode = 'login' | 'signup'
 
@@ -20,7 +21,7 @@ export default function AuthPage() {
   const [error, setError]       = useState('')
   const [success, setSuccess]   = useState('')
 
-  const isConfigured = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  const isConfigured = hasValidSupabasePublicConfig()
   useEffect(() => {
     const authError = new URLSearchParams(window.location.search).get('auth_error')
     if (authError) setError(authError)

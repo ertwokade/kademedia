@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
-import { HiOutlineArrowRight, HiOutlineDocumentText } from 'react-icons/hi'
+import { HiOutlineArrowRight } from 'react-icons/hi'
 import { useSEO } from '../hooks/useSEO'
 import PageTransition from '../components/PageTransition'
 import { FadeIn } from '../components/Animations'
-import PageBgAnimation from '../components/PageBgAnimation'
 import './CaseStudies.css'
 
 export default function CaseStudies() {
@@ -16,16 +15,21 @@ export default function CaseStudies() {
 
   return (
     <PageTransition>
-      <section className="case-hero">
-        <PageBgAnimation type="partners" />
-        <div className="grid-bg" />
+      <section className="editorial-section section">
         <div className="container">
-          <FadeIn><div className="section-badge"><HiOutlineDocumentText size={14} />Vaka çalışmaları</div></FadeIn>
-          <FadeIn delay={0.1}><h1 className="section-title">Doğrulanmış <span>sonuç arşivi</span></h1></FadeIn>
-          <FadeIn delay={0.2}><p className="section-subtitle">Kampanya sonuçlarını ve müşteri isimlerini ancak ölçüm kaynağı ve yayın izni doğrulandıktan sonra paylaşıyoruz. Şu anda yayında bir vaka çalışması yok.</p></FadeIn>
+          <FadeIn><span className="editorial-eyebrow">— Vaka çalışmaları</span></FadeIn>
+          <FadeIn delay={0.1}><h1 className="editorial-lead">Doğrulanmış sonuç arşivi</h1></FadeIn>
+          <FadeIn delay={0.2}><p className="editorial-subtitle">Kampanya sonuçlarını ve müşteri isimlerini ancak ölçüm kaynağı ve yayın izni doğrulandıktan sonra paylaşıyoruz. Şu anda yayında bir vaka çalışması yok.</p></FadeIn>
         </div>
       </section>
-      <section className="section"><div className="container"><div className="case-cta glass-card"><h2>Projeniz için kapsam oluşturalım</h2><Link to="/teklif-al" className="btn btn-primary">Teklif al<HiOutlineArrowRight size={16} /></Link></div></div></section>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>PROJENİZ İÇİN KAPSAM OLUŞTURALIM</h2>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/teklif-al" className="editorial-btn editorial-btn-primary">Teklif al<HiOutlineArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
     </PageTransition>
   )
 }

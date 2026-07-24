@@ -8,16 +8,7 @@ const dispatcherSource = await readFile(new URL('../api/[...path].js', import.me
 const blogDetailSource = await readFile(new URL('../src/pages/BlogDetail.jsx', import.meta.url), 'utf8')
 const partnerDetailSource = await readFile(new URL('../src/pages/PartnerDetail.jsx', import.meta.url), 'utf8')
 
-const expectedMissing = new Set([
-  '/fiyat-hesaplama',
-  '/basin',
-  '/neden-biz',
-  '/referans-programi',
-  '/podcast-webinar',
-  '/bulten-arsivi',
-  '/blog/:slug',
-  '/partnerler/:id',
-])
+const expectedMissing = new Set()
 
 function assert(condition, message) {
   if (!condition) throw new Error(message)
@@ -37,8 +28,12 @@ async function fileExists(url) {
 
 function rootPageExists(route) {
   if (route === '/') return true
-  if (route === '/blog/:slug') return !/<NotFound\s*\/>/.test(blogDetailSource)
-  if (route === '/partnerler/:id') return !/<NotFound\s*\/>/.test(partnerDetailSource)
+  if (route === '/blog/:slug') {
+    return appSource.includes('path="/blog/:slug"') && blogDetailSource.includes('getBlogsApi')
+  }
+  if (route === '/partnerler/:id') {
+    return appSource.includes('path="/partnerler/:id"') && partnerDetailSource.includes('getPartnersApi')
+  }
   if (route === '/links' || route === '/kadelinks') return appSource.includes(`path="${route}"`)
   if (route.startsWith('/hizmetler/')) return appSource.includes('path="/hizmetler/:slug"')
   if (route.startsWith('/organizasyon-kiti/') && !route.includes('/plan/')) {

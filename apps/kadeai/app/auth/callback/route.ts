@@ -3,6 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { appRoutes, withBasePath } from '@/lib/appConfig'
 import { supabaseCookieOptions } from '@/lib/supabase/cookieOptions'
+import { getSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 function safeNext(value: string | null) {
   if (!value) return appRoutes.dashboard
@@ -19,12 +20,13 @@ export async function GET(request: NextRequest) {
   })()
   const code = searchParams.get('code')
   const next = safeNext(searchParams.get('next'))
+  const supabaseConfig = getSupabasePublicConfig()
 
-  if (code && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (code && supabaseConfig.valid) {
     const cookieStore = await cookies()
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      supabaseConfig.url,
+      supabaseConfig.anonKey,
       {
         cookieOptions: supabaseCookieOptions,
         cookies: {
@@ -41,6 +43,10 @@ export async function GET(request: NextRequest) {
       loginUrl.searchParams.set('auth_error', 'Oturum bağlantısı geçersiz veya süresi dolmuş.')
       return NextResponse.redirect(loginUrl)
     }
+  } else if (code && !supabaseConfig.valid) {
+    const loginUrl = new URL(`${origin}${withBasePath(appRoutes.login)}`)
+    loginUrl.searchParams.set('auth_error', 'Kimlik doğrulama hizmeti şu anda kullanılamıyor.')
+    return NextResponse.redirect(loginUrl)
   } else if (!code) {
     const loginUrl = new URL(`${origin}${withBasePath(appRoutes.login)}`)
     loginUrl.searchParams.set('auth_error', 'Giriş doğrulama kodu bulunamadı.')

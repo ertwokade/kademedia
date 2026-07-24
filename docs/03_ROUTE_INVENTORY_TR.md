@@ -2,6 +2,13 @@
 
 Tarih: 23 Temmuz 2026. Kaynak: `src/App.jsx` (kök, elle çıkarıldı) ve `apps/kadeai/app/**` (find ile otomatik çıkarıldı). Kökteki önceki `ROUTE_MATRIX.md`/`ROUTE_AUDIT.md` ile çapraz kontrol edildi; bu belge güncel/taze halidir.
 
+## 24 Temmuz 2026 güncellemesi
+
+Makine tarafından doğrulanan `config/route-manifest.json` envanteri 169/169
+uygulanmış rotaya ulaştı. Daha önce eksik olan `/fiyat-hesaplama`, `/basin`,
+`/neden-biz`, `/referans-programi`, `/podcast-webinar` ve `/bulten-arsivi`
+router, sitemap, statik HTML üretimi ve Playwright public route setine eklendi.
+
 **En önemli bulgu:** `apps/kadeai/app/dashboard/**` altında zaten 39 araç sayfası var ve bunların çoğu şartnamenin §15 (genel sosyal medya araçları) ve §16 (kişisel analiz) bölümlerinde "oluştur" denen araçlarla **birebir veya çok yakın örtüşüyor** (hook, title, description, hashtag, thread, carousel, clickbait-detector, viral-score, retention-analysis, competitor, social-audit, content-plan, comment-analysis, trends, performance, analytics, ideas, ab-test). Ayrıca `video-factory`, `clip-generator`, `dubbing` gibi sayfalar şartname §17'nin istediği "ChatCut alternatifi video editör" ile örtüşüyor olabilir. **Sonraki fazlarda bu envantere karşı gap-analizi yapılmadan hiçbir §15/§16/§17 özelliği "sıfırdan inşa" olarak ele alınmamalı** — aksi halde zaten var olan bir şey tekrar yazılır.
 
 ---

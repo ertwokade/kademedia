@@ -8,6 +8,19 @@ export function validateProductionEnvironment() {
   for (const name of ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY']) {
     if (!process.env[name]?.trim()) errors.push(`${name} eksik`)
   }
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || ''
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || ''
+  if (/YOUR_(?:PROJECT|SUPABASE)|CHANGE_ME|EXAMPLE/i.test(`${supabaseUrl} ${supabaseAnonKey}`)) {
+    errors.push('Supabase public yapılandırması örnek/placeholder değer içeriyor')
+  }
+  if (supabaseUrl) {
+    try {
+      const parsed = new URL(supabaseUrl)
+      if (!['https:', 'http:'].includes(parsed.protocol)) errors.push('NEXT_PUBLIC_SUPABASE_URL HTTP(S) URL olmalı')
+    } catch {
+      errors.push('NEXT_PUBLIC_SUPABASE_URL geçerli bir mutlak URL değil')
+    }
+  }
   if (process.env.NEXT_PUBLIC_APP_URL) {
     try { new URL(process.env.NEXT_PUBLIC_APP_URL) } catch { errors.push('NEXT_PUBLIC_APP_URL geçerli bir mutlak URL değil') }
   }

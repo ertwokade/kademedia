@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { withBasePath } from '@/lib/appConfig'
 import { getRateLimitKey, rateLimit, rateLimitHeaders } from '@/lib/rateLimit'
+import { hasValidSupabasePublicConfig } from '@/lib/supabase/publicConfig'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
     return NextResponse.json({ error: 'Geçerli bir e-posta adresi girin.' }, { status: 400, headers })
   }
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!hasValidSupabasePublicConfig()) {
     return NextResponse.json({ error: 'Kimlik doğrulama hizmeti kullanılamıyor.' }, { status: 503, headers })
   }
 

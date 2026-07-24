@@ -97,7 +97,7 @@ const PUBLIC_ACTIONS = new Set([
   'newsletter', 'apply', 'analyzer-lead', 'submit',
 ])
 
-function isPublicPost(req) {
+export function isPublicPost(req) {
   if (String(req.method || '').toUpperCase() !== 'POST') return false
   const route = normalizeRoute(req)
   const action = req.query?.action
@@ -114,6 +114,9 @@ function isPublicPost(req) {
   if (route === 'contact' && (!action || PUBLIC_ACTIONS.has(action))) return true
   // Public survey response
   if (route === 'surveys' && action === 'submit') return true
+  // Public referral form — unauthenticated, protected in the handler with
+  // consent validation, honeypot and an IP-based rate limit.
+  if (route === 'referrals' && !action) return true
   return false
 }
 

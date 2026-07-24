@@ -74,35 +74,45 @@ export default function BlogDetail() {
         </>
       )}
 
-      <section className="blog-hero">
+      <section className="editorial-section section">
         <div className="container">
           <FadeIn>
-            <Link to="/blog" className="partner-back" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <Link to="/blog" className="editorial-btn editorial-btn-ghost" style={{ marginBottom: 32 }}>
               <HiOutlineArrowLeft size={14} /> {isEN ? 'Back to blog' : 'Blog\'a dön'}
             </Link>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div className="blog-meta" style={{ marginTop: 16 }}>
-              {post.category && <span className="blog-category">{isEN ? (post.categoryEn || post.category) : post.category}</span>}
-              <span className="blog-date"><HiOutlineCalendar size={12} /> {formatDate(post, lang)}</span>
-              {post.readTime && <span className="blog-read"><HiOutlineClock size={12} /> {post.readTime}</span>}
+            <span className="editorial-eyebrow">— {isEN ? 'Article' : 'Yazı'}</span>
+            <div className="editorial-list-tags" style={{ marginTop: 0, marginBottom: 18 }}>
+              {post.category && <span className="editorial-list-tag">{isEN ? (post.categoryEn || post.category) : post.category}</span>}
+              <span className="editorial-list-tag"><HiOutlineCalendar size={11} style={{ marginRight: 4, verticalAlign: -2 }} /> {formatDate(post, lang)}</span>
+              {post.readTime && <span className="editorial-list-tag"><HiOutlineClock size={11} style={{ marginRight: 4, verticalAlign: -2 }} /> {post.readTime}</span>}
             </div>
-            <h1 className="section-title" style={{ marginTop: 12 }}>{title}</h1>
+            <h1 className="editorial-lead">{title}</h1>
+            {description && <p className="editorial-subtitle">{description}</p>}
           </FadeIn>
         </div>
       </section>
 
-      <section className="section">
+      <section className="editorial-section section" style={{ borderTop: 'none' }}>
         <div className="container blog-detail-layout">
           <FadeIn>
-            <div className="blog-detail-content glass-card">
+            <article className="blog-detail-content">
               <div className="blog-body" dangerouslySetInnerHTML={{ __html: content }} />
-            </div>
+            </article>
           </FadeIn>
         </div>
       </section>
 
-      <section className="section"><div className="container"><div className="blog-newsletter glass-card"><h2>{isEN ? 'Need a practical answer?' : 'Pratik bir yanıt mı arıyorsunuz?'}</h2><p>{isEN ? 'Tell us what you are working on.' : 'Üzerinde çalıştığınız konuyu bize anlatın.'}</p><Link to="/iletisim" className="btn btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link></div></div></section>
+      <section className="editorial-section section" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="editorial-display-title" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}>{isEN ? 'NEED A PRACTICAL ANSWER?' : 'PRATİK BİR YANIT MI ARIYORSUNUZ?'}</h2>
+          <p className="editorial-subtitle" style={{ margin: '0 auto 32px' }}>{isEN ? 'Tell us what you are working on.' : 'Üzerinde çalıştığınız konuyu bize anlatın.'}</p>
+          <div className="editorial-actions" style={{ justifyContent: 'center' }}>
+            <Link to="/iletisim" className="editorial-btn editorial-btn-primary">{isEN ? 'Contact us' : 'İletişime geç'}<HiOutlineArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
     </PageTransition>
   )
 }

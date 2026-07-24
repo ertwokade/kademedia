@@ -59,6 +59,12 @@ const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 const Forbidden = lazy(() => import('./pages/Forbidden'))
 const TooManyRequests = lazy(() => import('./pages/TooManyRequests'))
 const Maintenance = lazy(() => import('./pages/Maintenance'))
+const PriceCalculator = lazy(() => import('./pages/PriceCalculator'))
+const Basin = lazy(() => import('./pages/Basin'))
+const NedenBiz = lazy(() => import('./pages/NedenBiz'))
+const ReferralProgram = lazy(() => import('./pages/ReferralProgram'))
+const PodcastWebinar = lazy(() => import('./pages/PodcastWebinar'))
+const NewsletterArchive = lazy(() => import('./pages/NewsletterArchive'))
 
 function PageLoader() {
   // Lazy chunk inerken tamamen boş ekran yerine hafif, markalı bir spinner
@@ -154,6 +160,12 @@ const ROUTE_THEMES = {
   '/organizasyon-kiti': 'about',
   '/kade-kit-business': 'services',
   '/proje-takip': 'services',
+  '/fiyat-hesaplama': 'packages',
+  '/basin': 'about',
+  '/neden-biz': 'about',
+  '/referans-programi': 'partners',
+  '/podcast-webinar': 'blog',
+  '/bulten-arsivi': 'blog',
 }
 
 function getCanvasTheme(pathname) {
@@ -182,6 +194,22 @@ function App() {
     || location.pathname === '/proje-takip'
   const canvasTheme = getCanvasTheme(location.pathname)
   const prevPath = useRef(null)
+
+  // KÖK NEDEN (CPU-throttle profiliyle doğrulandı): dekoratif partikül canvas'ı
+  // (PageHeroCanvas/KadeParticleCanvas) + Aurora/Grain, her gezinmede ana
+  // thread'i doyurup React'in sayfa içeriğini DOM'a koymasını geciktiriyordu
+  // — "yalnızca navbar görünür, gövde 3-8 sn boş" semptomu buydu. Çözüm:
+  // dekoru her gezinmede içerik boyandıktan SONRA (requestIdleCallback) mount
+  // et. Navbar hemen görünür; dekor kısa süre sonra sönümlenerek gelir.
+  const [decorReady, setDecorReady] = useState(false)
+  useEffect(() => {
+    setDecorReady(false)
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 300))
+    const cancel = window.cancelIdleCallback || clearTimeout
+    const id = ric(() => setDecorReady(true), { timeout: 900 })
+    return () => cancel(id)
+  }, [location.pathname])
+  const showDecor = !hideShell && decorReady
 
   // Dekoratif altın imleç sadece pazarlama sayfalarında kalsın — admin ve
   // araç/panel sayfalarında (Kade AI panelleri dahil) normal imleç kullanılır.
@@ -233,9 +261,9 @@ function App() {
       <OrganizationSchema />
       <a href="#main-content" className="skip-to-content">İçeriğe geç</a>
       <ScrollToTop />
-      {!hideShell && <AuroraBackground />}
-      {!hideShell && <GrainOverlay />}
-      {!hideShell && <PageHeroCanvas type={canvasTheme} />}
+      {showDecor && <AuroraBackground />}
+      {showDecor && <GrainOverlay />}
+      {showDecor && <PageHeroCanvas type={canvasTheme} />}
       {!hideShell && <Navbar />}
       <main id="main-content">
         <Routes location={location} key={location.pathname}>
@@ -267,6 +295,12 @@ function App() {
           <Route path="/referanslar" element={<LazyRoute><Referanslar /></LazyRoute>} />
           <Route path="/tesekkur" element={<LazyRoute><Tesekkur /></LazyRoute>} />
           <Route path="/teklif-al" element={<LazyRoute><QuoteRequest /></LazyRoute>} />
+          <Route path="/fiyat-hesaplama" element={<LazyRoute><PriceCalculator /></LazyRoute>} />
+          <Route path="/basin" element={<LazyRoute><Basin /></LazyRoute>} />
+          <Route path="/neden-biz" element={<LazyRoute><NedenBiz /></LazyRoute>} />
+          <Route path="/referans-programi" element={<LazyRoute><ReferralProgram /></LazyRoute>} />
+          <Route path="/podcast-webinar" element={<LazyRoute><PodcastWebinar /></LazyRoute>} />
+          <Route path="/bulten-arsivi" element={<LazyRoute><NewsletterArchive /></LazyRoute>} />
           <Route path="/giris" element={<LazyRoute><LoginHub /></LazyRoute>} />
           <Route path="/giris/danismanlik" element={<LazyRoute><Login /></LazyRoute>} />
           <Route path="/musteri-panel" element={<LazyRoute><CustomerPortal /></LazyRoute>} />

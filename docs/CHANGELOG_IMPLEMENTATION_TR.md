@@ -49,6 +49,43 @@ bağlı — bkz. `git log`.
 
 - `20e23d8` — **Üretim kesintisi giderildi:** Vercel Framework Preset yanlışlıkla "Services" olarak ayarlıydı (PR #8 denemesinden kalma, git'te karşılığı yok), her deployment 2-3 saniyede hata veriyordu. `vercel.json`'a `"framework": "vite"` eklenerek düzeltildi, canlı deployment ile doğrulandı.
 
+## 24 Temmuz 2026 — Statik Codex devam çalışması (henüz commit edilmedi)
+
+- Kade AI Supabase public env doğrulaması tek kaynağa taşındı; boş,
+  placeholder ve geçersiz URL değerleri login/proxy/client/server katmanlarında
+  fail-closed davranıyor.
+- Parola login hata eşlemesi düzeltildi: kimlik reddi `401`, rate limit `429`,
+  config/sağlayıcı kesintisi `503`. Sağlayıcı hata mesajı loga aynen yazılmıyor.
+- Altı kalan public pazarlama sayfası paylaşılan editoryal desene geçirildi:
+  ServiceDetail, PartnerDetail, BlogDetail, CaseStudies, NewMediaAgency,
+  Tesekkur.
+- `/@link` ve gated paneller ürün/operasyon işlevleri nedeniyle bilinçli
+  tasarım istisnası olarak belgelendi.
+- `feat/site-dark-editorial` için gerçek `legacy:build` engeli kapandı.
+- Route denetleyicisindeki dinamik blog/partner yanlış negatifleri giderildi.
+  Ardından `/fiyat-hesaplama`, `/basin`, `/neden-biz`,
+  `/referans-programi`, `/podcast-webinar` ve `/bulten-arsivi` public
+  sayfaları CMS, SEO, sitemap, footer ve statik HTML üretimine bağlandı;
+  envanter artık 169/169.
+- Fiyat hesaplayıcı server-yönetimli katsayılarla çalışan güvenli tahmin
+  fonksiyonuna bağlandı. Basın/yayın fallback'leri doğrulanmamış örnek haber,
+  sayı veya etkinlik göstermiyor.
+- Public referans formunun yanlış admin-yetkisi bağı kaldırıldı; açık rıza,
+  honeypot, saatlik IP rate limit'i ve sunucu tarafı iletişim doğrulaması
+  eklendi.
+- Windows üzerinde Playwright web sunucusunu ve bundle-secret build komutunu
+  başlatan scriptler `.cmd`/npm CLI uyumlu hale getirildi.
+- Kade AI bağımlılıkları Next.js 16.2.11 ile hizalandı; güvenlik yamalı
+  `postcss` 8.5.22 ve `sharp` 0.35.3 kontrollü override edildi. Production
+  audit sonucu 0 bulgudur.
+- Doğrulama: legacy build, lint, 27 unit test, 70 Playwright senaryosu,
+  Kade AI lint/typecheck/26 unit test/production build/client-secret taraması
+  geçti. Kök Studio entegrasyon testi yerel PostgreSQL olmadığı için çalışmadı
+  ve blocker #20 olarak kaydedildi.
+- Canlı tarayıcıda altı yeni rota 1440px ve 390px genişlikte doğrulandı;
+  yatay taşma görülmedi ve fiyat hesaplayıcının etkileşimli sonucu kontrol
+  edildi.
+
 ## Bu oturumdan önce (önceki turlar, referans için)
 
 - `9c2a6aa` — Admin paket fiyatlandırması `/paketler` sayfasına gerçek bağlandı.

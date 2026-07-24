@@ -2,6 +2,7 @@ import { getSupabase, isValidUuid } from './_lib/supabase.js'
 import { requirePermission } from './_lib/auth.js'
 import { cors } from './_lib/cors.js'
 import { logActivity } from './notifications.js'
+import { rateLimitCheck } from './_lib/rateLimit.js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const STATUSES = ['yeni', 'iletisime-gecildi', 'teklif', 'kazandi', 'odendi', 'kaybedildi']
@@ -49,8 +50,15 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const user = await requirePermission(req, res, 'referrals', { write: true })
-    if (!user) return
+    const limit = await rateLimitCheck(req, {
+      namespace: 'referral-submit',
+      windowMs: 60 * 60 * 1000,
+      maxRequests: 5,
+    })
+    if (!limit.allowed) {
+      res.setHeader('Retry-After', String((limit.retryAfter || 60) * 60))
+      return res.status(429).json({ error: 'Çok fazla yönlendirme denemesi. Lütfen daha sonra tekrar deneyin.' })
+    }
 
     let body = req.body
     if (typeof body === 'string') {
@@ -67,13 +75,25 @@ export default async function handler(req, res) {
       leadCompany,
       service,
       notes,
+      website,
+      consent,
     } = body || {}
 
+    // Ekran okuyucu ve klavye akışından çıkarılmış honeypot alanı botlar
+    // tarafından doldurulursa kayıt oluşturmadan başarılı görünür.
+    if (cleanText(website, 200)) return res.status(201).json({ success: true })
+
+    if (consent !== true) {
+      return res.status(400).json({ error: 'İletişim bilgilerini paylaşma izni onaylanmalıdır.' })
+    }
     if (!cleanText(referrerName, 120) || !cleanText(referrerEmail, 254) || !cleanText(leadName, 120)) {
       return res.status(400).json({ error: 'Adınız, e-postanız ve önerilen kişi adı zorunludur.' })
     }
     if (!EMAIL_RE.test(referrerEmail)) return res.status(400).json({ error: 'Geçerli bir e-posta adresi giriniz.' })
     if (leadEmail && !EMAIL_RE.test(leadEmail)) return res.status(400).json({ error: 'Önerilen kişinin e-postası geçerli değil.' })
+    if (!cleanText(leadEmail, 254) && !cleanText(leadPhone, 30)) {
+      return res.status(400).json({ error: 'Önerilen kişi için e-posta veya telefon bilgilerinden biri gereklidir.' })
+    }
 
     const referral = {
       referrer_name: cleanText(referrerName, 120),
@@ -111,7 +131,7 @@ export default async function handler(req, res) {
       detail: `${created.referrer_name} -> ${created.lead_name}`,
       type: 'message',
       icon: '↗',
-      user: user.username,
+      user: 'public-referral-form',
     }).catch(() => {})
 
     return res.status(201).json({ success: true, referral: mapReferral(created) })
