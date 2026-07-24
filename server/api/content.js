@@ -192,8 +192,13 @@ export default async function handler(req, res) {
         }
       }
 
-      let tsQuery = supabase.from('kade_traffic_sources').select('id, count').eq('date', today).eq('source', source);
-      tsQuery = sourceDetail === null ? tsQuery.is('detail', null) : tsQuery.eq('detail', sourceDetail);
+      const detailValue = sourceDetail ?? '';
+      const tsQuery = supabase
+        .from('kade_traffic_sources')
+        .select('id, count')
+        .eq('date', today)
+        .eq('source', source)
+        .eq('detail', detailValue);
       const { data: existingTs, error: tsSelectErr } = await tsQuery.maybeSingle();
       if (tsSelectErr) throw tsSelectErr;
       if (existingTs) {
@@ -205,7 +210,7 @@ export default async function handler(req, res) {
       } else {
         const { error: tsInsertErr } = await supabase
           .from('kade_traffic_sources')
-          .insert({ date: today, source, detail: sourceDetail, count: 1 });
+          .insert({ date: today, source, detail: detailValue, count: 1 });
         if (tsInsertErr) throw tsInsertErr;
       }
 
