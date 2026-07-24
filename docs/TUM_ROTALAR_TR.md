@@ -1,16 +1,19 @@
-# Tüm Rotalar — `/` ile başlayan her şey
+# Tüm Rotalar — `/` ile başlayan her şey (tek liste)
 
-Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `apps/kadeai/app/**`, `apps/studio-web/app/**`, `vercel.json`). Dinamik segmentler (`:handle`, `:slug`, `:id`, `[projectId]`, `[exportId]`) gerçek değerlerle çalışır.
+Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `vercel.json`,
+`apps/kadeai/app/**`, `apps/studio-web/app/**`). Güncelleme: 2026-07-24.
+Dinamik segmentler (`:slug`, `:id`, `:handle`, `[projectId]`, `[exportId]`)
+gerçek değerlerle çalışır.
 
-**Özet:** Kök site 41 sayfa + 33 API · Kade AI 41 sayfa + 55 API · Kade Studio 4 sayfa + 11 API
+**Özet:** Kök ~44 sayfa + 33 API · Kade AI 41 sayfa + 55 API · Kade Studio 4 sayfa + 11 API
 
 ---
 
-## 1) Kök Site — Public Sayfalar (`kadenewmedia.com`)
+## 1) Kök site — Public sayfalar (`kadenewmedia.com`)
 
 | Yol | Açıklama |
 |---|---|
-| `/` | Ana sayfa (⚠️ React değil, `public/site.html` statik export — bkz. BLOCKERS #18) |
+| `/` | Ana sayfa — native React (`Home.jsx`), izole WebGL hero + editoryal içerik |
 | `/hizmetler` | Hizmetler listesi |
 | `/hizmetler/:slug` | Hizmet detayı (sosyal-medya-yonetimi, icerik-uretimi, reklam-yonetimi, video-produksiyon, strateji-danismanlik, web-sitesi-tasarimi) |
 | `/new-media-ajansi` | New Media ajansı |
@@ -23,28 +26,29 @@ Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `apps/kadeai/
 | `/ekip` | Ekip |
 | `/portfolio` | Portfolyo |
 | `/partnerler` | Partnerler listesi |
-| `/partnerler/:id` | Partner detayı (bu oturumda düzeltildi) |
-| `/basari-hikayeleri` | Başarı hikayeleri |
+| `/partnerler/:id` | Partner detayı |
+| `/basari-hikayeleri` | Başarı hikayeleri (vaka çalışmaları) |
 | `/referanslar` | Referanslar |
-| `/blog` | Blog listesi (bu oturumda gerçek CMS'e bağlandı) |
-| `/blog/:slug` | Blog yazı detayı (bu oturumda düzeltildi) |
+| `/blog` | Blog listesi |
+| `/blog/:slug` | Blog yazı detayı |
 | `/kade-kit-business` | Kade Kit Business |
-| `/:handle` | Link-in-bio profil sayfası (`/@handle`) |
-| `/s/:slug` | Kısa link yönlendirme çözücü |
+| `/:handle` | Link-in-bio profil (örn. `/@kullanici`) |
+| `/s/:slug` | Kısa link çözücü |
+| `/kadirdemir` | Özel link profili |
 
-## 2) Kök Site — Kimlik & Korumalı Rotalar
+## 2) Kök site — Kimlik & korumalı rotalar
 
 | Yol | Açıklama |
 |---|---|
 | `/giris` | Giriş hub'ı |
-| `/giris/danismanlik` | Danışmanlık girişi |
+| `/giris/danismanlik` | Danışmanlık/müşteri girişi |
 | `/admin` | Admin paneli (oturum korumalı) |
 | `/musteri-panel` | Müşteri paneli |
 | `/proje-takip` | Proje takip (müşteri korumalı) |
 | `/organizasyon-kiti` | Organizasyon Kiti (guard'lı) |
 | `/organizasyon-kiti/plan/fractional-new-media-director` | Plan sayfası |
 
-## 3) Kök Site — Hukuki & Hata/Durum Sayfaları
+## 3) Kök site — Hukuki & hata/durum sayfaları
 
 | Yol | Açıklama |
 |---|---|
@@ -53,24 +57,24 @@ Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `apps/kadeai/
 | `/cerez-politikasi` | Çerez politikası |
 | `/telif-haklari` | Telif hakları |
 | `/tesekkur` | Teşekkür / dönüşüm sayfası |
-| `/401` | Yetkisiz (bu oturumda eklendi) |
-| `/403` | Erişim engellendi (bu oturumda eklendi) |
-| `/429` | Çok fazla istek (bu oturumda eklendi) |
-| `/bakim` | Bakım sayfası (bu oturumda eklendi) |
+| `/401` | Yetkisiz |
+| `/403` | Erişim engellendi |
+| `/429` | Çok fazla istek |
+| `/bakim` | Bakım sayfası |
 | `*` | 404 (bilinmeyen tüm rotalar) |
 
-## 4) Kök Site — Yönlendirmeler & Statik (`vercel.json`)
+## 4) Kök site — Yönlendirme & statik
 
-| Yol | Hedef |
+| Yol | Hedef / not |
 |---|---|
 | `/links` | → `kadirardademir.com/links` (301) |
 | `/kadelinks` | → `kadirardademir.com/links` (301) |
 | `/kadelinks/:path*` | → `kadirardademir.com/links` (301) |
-| `/kadirdemir` | Link profil (özel handle) |
 | `/robots.txt` | Statik |
 | `/sitemap.xml` | → `/api/sitemap` (dinamik üretim) |
+| `/hero.html` | İzole WebGL hero (anasayfa iframe kaynağı) |
 
-## 5) Kök Site — API Uçları (`/api/*`)
+## 5) Kök site — API uçları (`/api/*`)
 
 | Yol | İşlev |
 |---|---|
@@ -79,9 +83,9 @@ Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `apps/kadeai/
 | `/api/customer-portal` | Müşteri paneli verisi |
 | `/api/customers` | Müşteri yönetimi (admin) |
 | `/api/users` | Kullanıcı yönetimi (admin) |
-| `/api/shopier` | Ödeme webhook + sipariş listesi + iade (bu oturumda genişletildi) |
-| `/api/coupons` | Kupon/kampanya CRUD (bu oturumda eklendi) |
-| `/api/system-health` | Sistem sağlığı (bu oturumda eklendi) |
+| `/api/shopier` | Ödeme webhook + sipariş listesi + iade |
+| `/api/coupons` | Kupon/kampanya CRUD |
+| `/api/system-health` | Sistem sağlığı |
 | `/api/blog` | Blog CRUD + public liste |
 | `/api/partners` | Partner CRUD + public liste |
 | `/api/content` | Site içeriği / CMS |
@@ -121,13 +125,13 @@ Koddan doğrudan çıkarıldı (`src/App.jsx`, `api/[...path].js`, `apps/kadeai/
 **Dashboard araçları** (`/kadeai/dashboard/*`):
 `ab-test` · `ai-thumbnail` · `analytics` · `bio-link` · `bulk` · `calendar` · `carousel` · `clickbait-detector` · `clip-generator` · `collab-mail` · `comment-analysis` · `competitor` · `content-plan` · `description` · `dubbing` · `faq` · `hashtag` · `history` · `hook` · `ideas` · `operations` · `packages` · `performance` · `quote-extractor` · `retention-analysis` · `settings` · `shopier` · `social-audit` · `templates` · `text-generator` · `thread` · `title` · `trends` · `video-factory` · `viral-score` · `youtube-seo`
 
-## 7) Kade AI — API Uçları (`/kadeai/api/*`)
+## 7) Kade AI — API uçları (`/kadeai/api/*`)
 
 | Grup | Yollar |
 |---|---|
-| Kimlik | `/kadeai/api/auth/logout` · `/auth/password` · `/auth/recovery` · `/auth/recovery-session` · `/auth/update-password` |
+| Kimlik | `/kadeai/api/auth/{logout, password, recovery, recovery-session, update-password}` |
 | Üretim (AI) | `/kadeai/api/generate/{analytics, bio-link, bulk, carousel, clickbait-detector, clips, collab-mail, comment-analysis, competitor, content-plan, description, faq, hashtag, hook, ideas, performance, quote-extractor, retention-analysis, social-audit, text-generator, thread, title, translate, trends, tts, viral-score, youtube-seo}` |
-| Ödeme | `/kadeai/api/payments/{checkout, status, webhook}` · `/payments/shopier/redirect` · `/payments/admin/custom-offer` · `/payments/admin/pricing` |
+| Ödeme | `/kadeai/api/payments/{checkout, status, webhook}` · `/payments/shopier/redirect` · `/payments/admin/{custom-offer, pricing}` |
 | Medya | `/kadeai/api/{image, video, transcribe}` |
 | Diğer | `/kadeai/api/{assistant, calendar, config, env-status, health, history, operations-state, packages, profile, templates}` · `/backend/health` · `/youtube/comments` |
 
