@@ -986,6 +986,23 @@ body::after {
   overflow: hidden;
 }
 
+/* Compositor-driven sayfa geçişi — ana thread meşgulken bile tamamlanır
+   (bkz. PageTransition.jsx kök-neden notu). Yalnızca opacity + transform. */
+.page-reveal {
+  animation: kade-page-reveal 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes kade-page-reveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-reveal { animation: kade-page-reveal-fade 0.2s ease both; }
+  @keyframes kade-page-reveal-fade { from { opacity: 0; } to { opacity: 1; } }
+}
+
 .page-reveal-sheen {
   position: fixed;
   inset: 0;

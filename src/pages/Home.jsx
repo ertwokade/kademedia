@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { HiOutlineArrowRight } from 'react-icons/hi'
 import { useSEO } from '../hooks/useSEO'
@@ -28,6 +29,17 @@ export default function Home() {
     path: '/',
   })
 
+  // Anasayfadan ayrılırken (client-side gezinme) izole hero iframe'inin WebGL
+  // context'lerini ve rAF döngülerini HEMEN bırak. Aksi halde donmuş bundle
+  // GC'ye kadar ana thread'i/GPU'yu tutmaya devam edip sonraki sayfanın
+  // render'ını geciktiriyordu (profilde from-home ~+1.2 sn). about:blank
+  // yüklemek iframe belgesini anında yok eder.
+  const heroRef = useRef(null)
+  useEffect(() => {
+    const frame = heroRef.current
+    return () => { try { if (frame) frame.src = 'about:blank' } catch { /* yoksay */ } }
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -35,6 +47,7 @@ export default function Home() {
       {/* İzole WebGL hero — donmuş bundle iframe içinde, ana React ağacından ayrı */}
       <section className="home-hero" aria-label="Kade New Media">
         <iframe
+          ref={heroRef}
           src="/hero.html"
           className="home-hero-frame"
           title="Kade New Media — hero animasyonu"

@@ -1,27 +1,14 @@
-import { motion } from 'framer-motion'
-
-// NOT: CSS `filter: blur()` animasyonu içerik-yoğun sayfalarda pahalı ve
-// bileşiklemede (compositing) takılabiliyor — canlıda 2-4 sn'lik "asılı
-// blur" bunun sonucuydu. Blur miktarı 10px→3px'e, süre 0.55→0.32'ye
-// düşürüldü; opacity+y geçişi (ucuz, GPU-dostu) korundu. Dekoratif sheen
-// daha kısa ve hafif hale getirildi.
+// KÖK NEDEN (canlı + CPU-throttle profiliyle doğrulandı): Önceki sürüm
+// framer-motion ile JS/rAF-tabanlı opacity animasyonu yapıyordu. Shell
+// sayfalarındaki dekoratif partikül canvas'ı (KadeParticleCanvas) ana
+// thread'i doyurunca framer-motion'ın rAF döngüsü aç kalıyor, içerik
+// opacity ~0'da saniyelerce (3-8 sn) takılı kalıyordu — "yalnızca navbar
+// görünür" semptomu buydu.
+//
+// Çözüm: geçişi tamamen CSS animasyonuna taşı. CSS `opacity`/`transform`
+// animasyonları COMPOSITOR üzerinde çalışır; ana thread meşgul olsa bile
+// tamamlanır. Böylece içerik görünürlüğü artık canvas yüküyle yarışmaz.
+// framer-motion ve blur filtresi kaldırıldı (blur zaten pahalıydı).
 export default function PageTransition({ children }) {
-  return (
-    <motion.div
-      className="page-wrapper"
-      initial={{ opacity: 0, y: 14, filter: 'blur(3px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <motion.div
-        className="page-reveal-sheen"
-        initial={{ x: '-120%', opacity: 0.18 }}
-        animate={{ x: '120%', opacity: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        aria-hidden="true"
-      />
-      {children}
-    </motion.div>
-  )
+  return <div className="page-wrapper page-reveal">{children}</div>
 }

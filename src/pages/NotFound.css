@@ -123,3 +123,18 @@
     padding: 100px 16px 60px;
   }
 }
+
+/* CSS-tabanlı kademeli giriş (framer-motion yerine — compositor, CPU yükü
+   altında da içerik hızla görünür). Inline --d ile stagger. */
+.nf-reveal {
+  opacity: 0;
+  animation: nf-reveal-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
+}
+@keyframes nf-reveal-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-reveal { animation-duration: 0.2s; }
+  @keyframes nf-reveal-in { from { opacity: 0; } to { opacity: 1; } }
+}

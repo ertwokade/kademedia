@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { HiOutlineHome, HiOutlineArrowRight, HiOutlineSearch } from 'react-icons/hi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useSEO } from '../hooks/useSEO'
@@ -48,37 +47,22 @@ export default function NotFound() {
         <div className="grid-bg" />
         <div className="glow-effect" style={{ top: '-150px', right: '-100px' }} />
         <div className="container notfound-container">
-          <motion.div
-            className="notfound-code"
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          >
+          <div className="notfound-code nf-reveal" style={{ '--d': '0s' }}>
             4<span>0</span>4
-          </motion.div>
-          <motion.h1
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
+          </div>
+          <h1 className="nf-reveal" style={{ '--d': '0.08s' }}>
             {lang === 'tr' ? 'Sayfa Bulunamadı' : 'Page Not Found'}
-          </motion.h1>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
+          </h1>
+          <p className="nf-reveal" style={{ '--d': '0.16s' }}>
             {lang === 'tr'
               ? 'Aradığınız sayfa mevcut değil veya taşınmış olabilir.'
               : 'The page you are looking for does not exist or may have been moved.'}
-          </motion.p>
+          </p>
 
-          <motion.form
-            className="notfound-arama"
+          <form
+            className="notfound-arama nf-reveal"
+            style={{ '--d': '0.22s' }}
             onSubmit={handleArama}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.35 }}
           >
             <input
               type="text"
@@ -91,14 +75,9 @@ export default function NotFound() {
             <button type="submit" className="notfound-arama-btn" aria-label={lang === 'tr' ? 'Ara' : 'Search'}>
               <HiOutlineSearch size={18} />
             </button>
-          </motion.form>
+          </form>
 
-          <motion.div
-            className="notfound-actions"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
+          <div className="notfound-actions nf-reveal" style={{ '--d': '0.3s' }}>
             <Link to="/" className="btn btn-primary">
               <HiOutlineHome size={18} />
               {lang === 'tr' ? 'Anasayfa' : 'Home'}
@@ -107,14 +86,9 @@ export default function NotFound() {
               {lang === 'tr' ? 'İletişim' : 'Contact'}
               <HiOutlineArrowRight size={16} />
             </Link>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="notfound-populer"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
+          <div className="notfound-populer nf-reveal" style={{ '--d': '0.38s' }}>
             <p className="notfound-populer-baslik">
               {lang === 'tr' ? 'Popüler Sayfalar' : 'Popular Pages'}
             </p>
@@ -125,7 +99,7 @@ export default function NotFound() {
                 </Link>
               ))}
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </section>
